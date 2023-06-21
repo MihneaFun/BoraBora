@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\WorldBlocksSingleton">
+      <UniqueIdentifier>{c5e3f30b-1220-4c80-b4de-e7245e1f386d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Rectangle">
+      <UniqueIdentifier>{2ba10231-88e2-46e6-a2b4-ed5cea866999}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Textures">
+      <UniqueIdentifier>{83e4c5c7-adda-44f8-899c-c1aa61e6b1c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Textures\GeneralTextureManagerSingleton">
+      <UniqueIdentifier>{df87a97c-8d76-4122-9734-75aa2bb69ac0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Textures\GeneralTextureLinkSingleton">
+      <UniqueIdentifier>{edad7082-ea4d-4b26-9561-aaf16240bfc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Enums">
+      <UniqueIdentifier>{b5b3e5a3-c0b3-433a-be6f-7b7a84745bc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Enums\BlockType">
+      <UniqueIdentifier>{a5d2c55c-a85a-4969-95fc-158bac5974e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Enums\TextureType">
+      <UniqueIdentifier>{97e7bb87-e84d-4f7f-b0d3-5f645c27399f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Textures\TextureAtlasSingleton">
+      <UniqueIdentifier>{30b7c040-37c8-4a2e-9979-b38933f1eea9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\WorldDrawerSingleton">
+      <UniqueIdentifier>{0fdadf55-3112-4d0b-8cf2-1071a0bb8bb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Mobs">
+      <UniqueIdentifier>{2d97e5ff-3324-4b78-814c-7af264efc0e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Mobs\GenericMob">
+      <UniqueIdentifier>{76d612d9-0669-4c54-9da8-f884d8077a05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Mobs\PlayableMob">
+      <UniqueIdentifier>{5a7f1b3c-04b1-433a-984b-659f63ce5349}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldBlocksSingleton.cpp">
+      <Filter>Source Files\WorldBlocksSingleton</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneralTextureLinkSingleton.cpp">
+      <Filter>Source Files\Textures\GeneralTextureLinkSingleton</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneralTextureManagerSingleton.cpp">
+      <Filter>Source Files\Textures\GeneralTextureManagerSingleton</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureAtlasSingleton.cpp">
+      <Filter>Source Files\Textures\TextureAtlasSingleton</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldDrawerSingleton.cpp">
+      <Filter>Source Files\WorldDrawerSingleton</Filter>
+    </ClCompile>
+    <ClCompile Include="GenericMob.cpp">
+      <Filter>Source Files\Mobs\GenericMob</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayableMob.cpp">
+      <Filter>Source Files\Mobs\PlayableMob</Filter>
+    </ClCompile>
+    <ClCompile Include="Rectangle.cpp">
+      <Filter>Source Files\Rectangle</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="WorldBlocksSingleton.h">
+      <Filter>Source Files\WorldBlocksSingleton</Filter>
+    </ClInclude>
+    <ClInclude Include="BlockType.h">
+      <Filter>Source Files\Enums\BlockType</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneralTextureLinkSingleton.h">
+      <Filter>Source Files\Textures\GeneralTextureLinkSingleton</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureType.h">
+      <Filter>Source Files\Enums\TextureType</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneralTextureManagerSingleton.h">
+      <Filter>Source Files\Textures\GeneralTextureManagerSingleton</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureAtlasSingleton.h">
+      <Filter>Source Files\Textures\TextureAtlasSingleton</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldDrawerSingleton.h">
+      <Filter>Source Files\WorldDrawerSingleton</Filter>
+    </ClInclude>
+    <ClInclude Include="GenericMob.h">
+      <Filter>Source Files\Mobs\GenericMob</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayableMob.h">
+      <Filter>Source Files\Mobs\PlayableMob</Filter>
+    </ClInclude>
+    <ClInclude Include="Rectangle.h">
+      <Filter>Source Files\Rectangle</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
