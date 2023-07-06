@@ -52,6 +52,15 @@
     <Filter Include="Source Files\Mobs\PlayableMob">
       <UniqueIdentifier>{5a7f1b3c-04b1-433a-984b-659f63ce5349}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Camera">
+      <UniqueIdentifier>{04fb10cc-5479-4e9f-88e5-0ea237677b50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\KeyboardAndMouseSingleton">
+      <UniqueIdentifier>{62adb191-7360-4ac6-8427-dadbb7ad7c16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Mobs\MissileMob">
+      <UniqueIdentifier>{9f2fbdaa-41f4-4ac2-afbd-e284ec22e7da}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -80,6 +89,15 @@
     </ClCompile>
     <ClCompile Include="Rectangle.cpp">
       <Filter>Source Files\Rectangle</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyboardAndMouseSingleton.cpp">
+      <Filter>Source Files\KeyboardAndMouseSingleton</Filter>
+    </ClCompile>
+    <ClCompile Include="MissileMob.cpp">
+      <Filter>Source Files\Mobs\MissileMob</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -112,6 +130,15 @@
     </ClInclude>
     <ClInclude Include="Rectangle.h">
       <Filter>Source Files\Rectangle</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Source Files\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardAndMouseSingleton.h">
+      <Filter>Source Files\KeyboardAndMouseSingleton</Filter>
+    </ClInclude>
+    <ClInclude Include="MissileMob.h">
+      <Filter>Source Files\Mobs\MissileMob</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

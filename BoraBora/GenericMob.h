@@ -1,8 +1,9 @@
 #pragma once
 
 #include <SFML/System/Vector2.hpp>
+#include "Rectangle.h"
 
-class GenericMob {
+class GenericMob : public sf::Drawable {
 public:
   GenericMob();
 
@@ -11,5 +12,12 @@ public:
   virtual void applyForces() = 0;
   virtual void teleport(float column, float row) = 0;
   virtual void clearForces() = 0;
-
+  virtual Rectangle getBoundingBox() const = 0;
+  virtual Rectangle getBoundingBoxAfterUpdateX(float dt) const = 0;
+  virtual Rectangle getBoundingBoxAfterUpdateY(float dt) const = 0;
+  virtual sf::Vector2f getVelocity() const = 0;
+  virtual void justElapseDtX(float dt) = 0;
+  virtual void justElapseDtY(float dt) = 0;
+  virtual void setVelocity(sf::Vector2f velocity) = 0;
+  virtual sf::Vector2f getCenter() const = 0;
 };

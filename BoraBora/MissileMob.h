@@ -4,10 +4,11 @@
 #include "Rectangle.h"
 #include <SFML/System/Vector2.hpp>
 
-class PlayableMob : public GenericMob {
+class MissileMob : public GenericMob {
 public:
-  PlayableMob();
+  MissileMob();
 
+  void ignite();
   void update(float dt) override;
   void addForce(const sf::Vector2f& force) override;
   void applyForces() override;
@@ -30,14 +31,19 @@ public:
   sf::Vector2f getVelocity() const override;
 
   Rectangle getBoundingBoxGivenPosition(float row, float column) const;
-  
+
   sf::Vector2f getCenter() const override;
 
-
   void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+  
+  void sendDT(float dt);
+
+  bool isExploding() const;
 
 private:
 
+  float m_remainingIgnitingTime;
+  bool m_igniting;
   float m_column;
   float m_row;
   float m_mass;

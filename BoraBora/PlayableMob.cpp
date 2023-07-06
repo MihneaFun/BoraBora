@@ -58,47 +58,26 @@ sf::Vector2f PlayableMob::getVelocity() const {
   return m_velocity;
 }
 
-Rectangle PlayableMob::getBoundingBox() const {
-  // You will need to define these values based on how you calculate your bounding box.
-  // Here's a very simple example:
-  float rowMin = m_row - 1.49f;
-  float rowMax = m_row + 0.5f;
-  float colMin = m_column - 0.4f;
-  float colMax = m_column + 0.4f;
+Rectangle PlayableMob::getBoundingBoxGivenPosition(float row, float column) const {
+  float rowMin = row - 1.49f;
+  float rowMax = row + 0.5f;
+  float colMin = column - 0.4f;
+  float colMax = column + 0.4f;
 
   return Rectangle(rowMin, rowMax, colMin, colMax);
+}
+
+Rectangle PlayableMob::getBoundingBox() const {
+  return getBoundingBoxGivenPosition(m_row, m_column);
 }
 
 Rectangle PlayableMob::getBoundingBoxAfterUpdateX(float dt) const {
-  // Calculate where the mob would move after the update.
-  float predictedColumn = m_column + m_velocity.x * dt;
-  float predictedRow = m_row;
-
-  // You will need to define these values based on how you calculate your bounding box.
-  // Here's a very simple example, now using the predicted column and row:
-  float rowMin = predictedRow - 1.49f;
-  float rowMax = predictedRow + 0.5f;
-  float colMin = predictedColumn - 0.4f;
-  float colMax = predictedColumn + 0.4f;
-
-  return Rectangle(rowMin, rowMax, colMin, colMax);
+  return getBoundingBoxGivenPosition(m_row, m_column + m_velocity.x * dt);
 }
 
 Rectangle PlayableMob::getBoundingBoxAfterUpdateY(float dt) const {
-  // Calculate where the mob would move after the update.
-  float predictedColumn = m_column;
-  float predictedRow = m_row + m_velocity.y * dt;
-
-  // You will need to define these values based on how you calculate your bounding box.
-  // Here's a very simple example, now using the predicted column and row:
-  float rowMin = predictedRow - 1.49f;
-  float rowMax = predictedRow + 0.5f;
-  float colMin = predictedColumn - 0.4f;
-  float colMax = predictedColumn + 0.4f;
-
-  return Rectangle(rowMin, rowMax, colMin, colMax);
+  return getBoundingBoxGivenPosition(m_row + m_velocity.y * dt, m_column);
 }
-
 
 float PlayableMob::getRow() const {
   return m_row;
@@ -106,4 +85,16 @@ float PlayableMob::getRow() const {
 
 float PlayableMob::getColumn() const {
   return m_column;
+}
+
+sf::Vector2f PlayableMob::getCenter() const {
+  return sf::Vector2f(m_column, m_row);
+}
+
+void PlayableMob::draw(sf::RenderTarget& renderTarget, sf::RenderStates renderStates) const {
+  Rectangle pos = getBoundingBox();
+  sf::RectangleShape shape;
+  shape.setSize(sf::Vector2f(pos.getColumnMax() - pos.getColumnMin(), pos.getRowMax() - pos.getRowMin()));
+  shape.setPosition(sf::Vector2f(pos.getColumnMin(), pos.getRowMin()));
+  renderTarget.draw(shape, renderStates);
 }

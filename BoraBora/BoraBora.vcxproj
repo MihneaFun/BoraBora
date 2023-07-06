@@ -146,10 +146,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="GeneralTextureLinkSingleton.cpp" />
     <ClCompile Include="GeneralTextureManagerSingleton.cpp" />
     <ClCompile Include="GenericMob.cpp" />
+    <ClCompile Include="KeyboardAndMouseSingleton.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MissileMob.cpp" />
     <ClCompile Include="PlayableMob.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="TextureAtlasSingleton.cpp" />
@@ -158,9 +161,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BlockType.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="GeneralTextureLinkSingleton.h" />
     <ClInclude Include="GeneralTextureManagerSingleton.h" />
     <ClInclude Include="GenericMob.h" />
+    <ClInclude Include="KeyboardAndMouseSingleton.h" />
+    <ClInclude Include="MissileMob.h" />
     <ClInclude Include="PlayableMob.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="TextureAtlasSingleton.h" />
