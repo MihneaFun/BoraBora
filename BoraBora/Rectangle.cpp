@@ -1,6 +1,31 @@
 #pragma once
 
 #include "Rectangle.h"
+#include "WorldBlocksSingleton.h"
+
+bool doesRectangleIntersectNonVoidBlocks(const Rectangle& rect) {
+  int startRow = rect.getRowMin() - 2, endRow = rect.getRowMax() + 2;
+  int startColumn = rect.getColumnMin() - 2, endColumn = rect.getColumnMax() + 2;
+  bool valid = true;
+  for (int row = startRow; row <= endRow && valid; ++row) {
+    for (int column = startColumn; column <= endColumn && valid; ++column) {
+      if (column < 0 || column >= WorldBlocksSingleton::getInstance()->getWidth() || row < 0 || row >= WorldBlocksSingleton::getInstance()->getHeight()) {
+        continue;
+      }
+
+      if (WorldBlocksSingleton::getInstance()->getBlockType(column, row) == BlockType::VOID) {
+        continue;
+      }
+
+      Rectangle thisRectangle(row, row + 1, column, column + 1);
+
+      if (doRectanglesIntersect(thisRectangle, rect)) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
 
 Rectangle::Rectangle(float rowmin, float rowmax, float colmin, float colmax)
   : m_rowmin(rowmin), m_rowmax(rowmax), m_colmin(colmin), m_colmax(colmax) {}

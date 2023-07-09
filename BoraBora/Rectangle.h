@@ -16,6 +16,8 @@ private:
   float m_colmax;
 };
 
+bool doesRectangleIntersectNonVoidBlocks(const Rectangle &rectangle);
+
 bool doRectanglesIntersect(const Rectangle& r1, const Rectangle& r2);
 
 sf::Vector2f getNewCoords(Rectangle oldView, Rectangle newView, sf::Vector2f position);

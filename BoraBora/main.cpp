@@ -94,12 +94,22 @@ int main() {
       sf::Vector2f loc = mobs[0]->getCenter();
       mobs.back()->teleport(loc.x, loc.y);
       mobs.back()->setVelocity(sf::Vector2f(20, 0));
+      if (doesRectangleIntersectNonVoidBlocks(mobs.back()->getBoundingBox())) {
+        mobs.back().reset();
+        mobs.pop_back();
+        cout << "it hits\n";
+      }
     }
     if (!wasX && isX) {
       mobs.push_back(make_unique<MissileMob>());
       sf::Vector2f loc = mobs[0]->getCenter();
       mobs.back()->teleport(loc.x, loc.y);
       mobs.back()->setVelocity(sf::Vector2f(-20, 0));
+      if (doesRectangleIntersectNonVoidBlocks(mobs.back()->getBoundingBox())) {
+        mobs.back().reset();
+        mobs.pop_back();
+        cout << "it hits\n";
+      }
     }
     was = is;
     wasB = isB;
@@ -109,12 +119,22 @@ int main() {
       sf::Vector2f loc = mobs[0]->getCenter();
       mobs.back()->teleport(loc.x, loc.y);
       mobs.back()->setVelocity(sf::Vector2f(20, 0));
+      if (doesRectangleIntersectNonVoidBlocks(mobs.back()->getBoundingBox())) {
+        mobs.back().reset();
+        mobs.pop_back();
+        cout << "it hits\n";
+      }
     }
     if (KeyboardAndMouseSingleton::getInstance()->isKeyJustPressed((sf::Keyboard::J))) {
       mobs.push_back(make_unique<MissileMob>());
       sf::Vector2f loc = mobs[0]->getCenter();
       mobs.back()->teleport(loc.x, loc.y);
       mobs.back()->setVelocity(sf::Vector2f(-20, 0));
+      if (doesRectangleIntersectNonVoidBlocks(mobs.back()->getBoundingBox())) {
+        mobs.back().reset();
+        mobs.pop_back();
+        cout << "it hits\n";
+      }
     }
 
     for (auto& mob : mobs) {
