@@ -7,6 +7,14 @@
 
 MissileMob::MissileMob() : m_mass(1.0f), m_igniting(false), m_remainingIgnitingTime(2) {}
 
+void MissileMob::update(float dt) {
+  bool touch = physicsUpdate(dt);
+  if (touch) {
+    ignite();
+  }
+  m_remainingIgnitingTime -= m_igniting * dt;
+}
+
 void MissileMob::justElapseDtX(float dt) {
   // Move the mob according to its velocity.
   m_column += m_velocity.x * dt;
@@ -14,19 +22,6 @@ void MissileMob::justElapseDtX(float dt) {
 
 void MissileMob::justElapseDtY(float dt) {
   // Move the mob according to its velocity.
-  m_row += m_velocity.y * dt;
-}
-
-void MissileMob::sendDT(float dt) {
-  m_remainingIgnitingTime -= m_igniting * dt;
-}
-
-void MissileMob::update(float dt) {
-  applyForces();
-  clearForces();
-  m_remainingIgnitingTime -= m_igniting * dt;
-  // Move the mob according to its velocity.
-  m_column += m_velocity.x * dt;
   m_row += m_velocity.y * dt;
 }
 

@@ -2,6 +2,10 @@
 
 PlayableMob::PlayableMob() : m_mass(1.0f) {}
 
+void PlayableMob::update(float dt) {
+  physicsUpdate(dt);
+}
+
 void PlayableMob::justElapseDtX(float dt) {
   // Move the mob according to its velocity.
   m_column += m_velocity.x * dt;
@@ -12,14 +16,6 @@ void PlayableMob::justElapseDtY(float dt) {
   m_row += m_velocity.y * dt;
 }
 
-
-void PlayableMob::update(float dt) {
-  applyForces();
-  clearForces();
-  // Move the mob according to its velocity.
-  m_column += m_velocity.x * dt;
-  m_row += m_velocity.y * dt;
-}
 
 void PlayableMob::addForce(const sf::Vector2f& force) {
   m_totalForce += force;

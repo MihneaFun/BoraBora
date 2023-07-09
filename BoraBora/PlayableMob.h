@@ -9,6 +9,7 @@ public:
   PlayableMob();
 
   void update(float dt) override;
+
   void addForce(const sf::Vector2f& force) override;
   void applyForces() override;
   void justElapseDtX(float dt) override;

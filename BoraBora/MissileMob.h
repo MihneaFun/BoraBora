@@ -9,7 +9,6 @@ public:
   MissileMob();
 
   void ignite();
-  void update(float dt) override;
   void addForce(const sf::Vector2f& force) override;
   void applyForces() override;
   void justElapseDtX(float dt) override;
@@ -36,7 +35,7 @@ public:
 
   void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
   
-  void sendDT(float dt);
+  void update(float dt) override;
 
   bool isExploding() const;
 

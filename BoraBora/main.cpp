@@ -23,8 +23,6 @@
 using namespace std;
 
 int main() {
-
-
   sf::RenderWindow window(sf::VideoMode(900, 900), "SFML works!");
 
   // Texture stuff:
@@ -41,9 +39,9 @@ int main() {
   vector<unique_ptr<GenericMob>> mobs;
 
   mobs.push_back(make_unique<PlayableMob>());
-  
+
   mobs[0]->teleport(10, 20);
-  
+
   sf::View view;
   view.setSize(sf::Vector2f(1, -1));
   view.setCenter(sf::Vector2f(0.5, 0.5));
@@ -140,7 +138,6 @@ int main() {
     for (auto& mob : mobs) {
       mob->addForce(sf::Vector2f(-mob->getVelocity().x, 0) * 0.004f);
     }
-    //missile.addForce(sf::Vector2f(-mob.getVelocity().x, 0) * 0.004f);
 
     // Handle mob movement
     sf::Vector2f force(0.0f, 0.0f);
@@ -170,7 +167,7 @@ int main() {
 
     // Apply the calculated force to the mob
     mobs[0]->addForce(force);
-    
+
     for (auto& mob : mobs) {
       mob->addForce(sf::Vector2f(0, -0.1));
     }
@@ -179,17 +176,14 @@ int main() {
     frames++;
 
     if (timeSinceLastUpdate > sf::seconds(1.0f)) {
-      std::cout << "FPS: " << frames << "\n";
+      std::cout << "FPS: " << frames << ", " << (int)mobs.size() << "\n";
       frames = 0;
       timeSinceLastUpdate -= sf::seconds(1.0f);
     }
 
     window.clear();
 
-    //Rectangle windowRectangle(0.05, 0.95, 0.05, 0.95);
-    //Rectangle windowRectangle(0.2, 0.8, 0.2, 0.8);
     Rectangle windowRectangle(0.20, 0.8, 0.20, 0.8);
-    //Rectangle worldRectangle(y, y + 49, x + 0, x + 49);
 
     if (PlayableMob* mob = dynamic_cast<PlayableMob*>(mobs[0].get())) {
       x = mob->getColumn() - 15;
@@ -224,115 +218,8 @@ int main() {
       window.draw(shape);
     }
 
-    //if (0) {
-    //  for (auto& mob : mobs) {
-    //    Rectangle pos = getNewCoords(worldRectangle, windowRectangle, mob->getBoundingBox());
-    //    sf::RectangleShape shape;
-    //    shape.setSize(sf::Vector2f(pos.getColumnMax() - pos.getColumnMin(), pos.getRowMax() - pos.getRowMin()));
-    //    shape.setPosition(sf::Vector2f(pos.getColumnMin(), pos.getRowMin()));
-    //    window.draw(shape);
-    //  }
-    //}
-    for (auto& generalmob : mobs) {
-      if (MissileMob* missile = dynamic_cast<MissileMob*>(generalmob.get())) {
-        missile->sendDT(fixedDT);
-        //cout << "exista\n";
-      }
-    }
-
-    if (1) {
-      for (auto& mob : mobs) {
-        mob->applyForces();
-        mob->clearForces();
-        bool invalid = false;
-        float curdt = fixedDT;
-        bool touch = false;
-        for (int iter = 1; iter <= 30, curdt *= 0.5f; iter++) {
-          //cout << " --> " << curdt << "\n";
-          Rectangle rect = mob->getBoundingBoxAfterUpdateX(curdt);
-          int startRow = rect.getRowMin() - 2, endRow = rect.getRowMax() + 2;
-          int startColumn = rect.getColumnMin() - 2, endColumn = rect.getColumnMax() + 2;
-          bool valid = true;
-          for (int row = startRow; row <= endRow && valid; ++row) {
-            for (int column = startColumn; column <= endColumn && valid; ++column) {
-              if (column < 0 || column >= WorldBlocksSingleton::getInstance()->getWidth() || row < 0 || row >= WorldBlocksSingleton::getInstance()->getHeight()) {
-                continue;
-              }
-
-              if (WorldBlocksSingleton::getInstance()->getBlockType(column, row) == BlockType::VOID) {
-                continue;
-              }
-
-              BlockType blockType = WorldBlocksSingleton::getInstance()->getBlockType(column, row);
-
-              Rectangle thisRectangle(row, row + 1, column, column + 1);
-
-              if (doRectanglesIntersect(thisRectangle, rect)) {
-                valid = false;
-              }
-            }
-          }
-          if (iter == 1 && !valid) {
-            touch = true;
-          }
-          if (valid) {
-            mob->justElapseDtX(curdt);
-          }
-          else {
-            invalid = true;
-          }
-        }
-        if (invalid) {
-          mob->setVelocity(sf::Vector2f(0, mob->getVelocity().y));
-        }
-        {
-          bool invalid = false;
-          float curdt = fixedDT;
-          for (int iter = 1; iter <= 30, curdt *= 0.5f; iter++) {
-            Rectangle rect = mob->getBoundingBoxAfterUpdateY(curdt);
-            int startRow = rect.getRowMin() - 2, endRow = rect.getRowMax() + 2;
-            int startColumn = rect.getColumnMin() - 2, endColumn = rect.getColumnMax() + 2;
-            bool valid = true;
-            for (int row = startRow; row <= endRow && valid; ++row) {
-              for (int column = startColumn; column <= endColumn && valid; ++column) {
-
-                if (column < 0 || column >= WorldBlocksSingleton::getInstance()->getWidth() || row < 0 || row >= WorldBlocksSingleton::getInstance()->getHeight()) {
-                  continue;
-                }
-
-                if (WorldBlocksSingleton::getInstance()->getBlockType(column, row) == BlockType::VOID) {
-                  continue;
-                }
-
-                BlockType blockType = WorldBlocksSingleton::getInstance()->getBlockType(column, row);
-
-                Rectangle thisRectangle(row, row + 1, column, column + 1);
-
-                if (doRectanglesIntersect(thisRectangle, rect)) {
-                  valid = false;
-                }
-              }
-            }
-            if (iter == 1 && !valid) {
-              touch = true;
-            }
-            if (valid) {
-              mob->justElapseDtY(curdt);
-            }
-            else {
-              invalid = true;
-            }
-          }
-          if (invalid) {
-            mob->setVelocity(sf::Vector2f(mob->getVelocity().x, 0));
-          }
-        }
-        if (touch) {
-          if (MissileMob* missile = dynamic_cast<MissileMob*>(mob.get())) {
-            missile->ignite();
-          }
-        }
-      }
+    for (auto& mob : mobs) {
+      mob->update(fixedDT);
     }
 
     window.display();

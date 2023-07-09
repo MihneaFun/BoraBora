@@ -30,6 +30,9 @@ WorldBlocksSingleton::WorldBlocksSingleton(int width, int height)
     }
     
     int randomHeight = distr(gen);  // generate random height
+    if (column > 10) {
+      randomHeight = 30;
+    }
     for (int row = 0; row < randomHeight; row++) {
       if (column <= 20 && row >= 2 && row <= 3) {
         continue;

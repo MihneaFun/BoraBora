@@ -4,8 +4,12 @@
 #include "Rectangle.h"
 
 class GenericMob : public sf::Drawable {
+protected:
+  bool physicsUpdate(float dt);
+
 public:
   GenericMob();
+
 
   virtual void update(float dt) = 0;
   virtual void addForce(const sf::Vector2f& force) = 0;
