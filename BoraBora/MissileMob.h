@@ -8,6 +8,8 @@ class MissileMob : public GenericMob {
 public:
   MissileMob();
 
+
+  virtual bool requestDelete() override;
   void ignite();
   void addForce(const sf::Vector2f& force) override;
   void applyForces() override;

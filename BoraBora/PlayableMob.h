@@ -8,6 +8,7 @@ class PlayableMob : public GenericMob {
 public:
   PlayableMob();
 
+  virtual bool requestDelete() override;
   void update(float dt) override;
 
   void addForce(const sf::Vector2f& force) override;

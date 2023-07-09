@@ -10,7 +10,7 @@ protected:
 public:
   GenericMob();
 
-
+  virtual bool requestDelete() = 0;
   virtual void update(float dt) = 0;
   virtual void addForce(const sf::Vector2f& force) = 0;
   virtual void applyForces() = 0;

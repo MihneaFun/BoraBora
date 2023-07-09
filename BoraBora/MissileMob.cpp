@@ -7,6 +7,10 @@
 
 MissileMob::MissileMob() : m_mass(1.0f), m_igniting(false), m_remainingIgnitingTime(2) {}
 
+bool MissileMob::requestDelete() {
+  return isExploding();
+}
+
 void MissileMob::update(float dt) {
   bool touch = physicsUpdate(dt);
   if (touch) {

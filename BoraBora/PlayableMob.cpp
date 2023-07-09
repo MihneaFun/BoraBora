@@ -2,6 +2,10 @@
 
 PlayableMob::PlayableMob() : m_mass(1.0f) {}
 
+bool PlayableMob::requestDelete() {
+  return false;
+}
+
 void PlayableMob::update(float dt) {
   physicsUpdate(dt);
 }

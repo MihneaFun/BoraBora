@@ -224,31 +224,23 @@ int main() {
 
     window.display();
 
-    int dim = (int)mobs.size();
-    for (int i = 0; i < dim; i++) {
-      if (MissileMob* missile = dynamic_cast<MissileMob*>(mobs[i].get())) {
-        if (missile->isExploding()) {
-          Rectangle bb = missile->getBoundingBox();
-          for (int row = bb.getRowMin() - 2; row <= bb.getRowMax() + 2; row++) {
-            for (int column = bb.getColumnMin() - 2; column <= bb.getColumnMin() + 2; column++) {
-
-              if (column < 0 || column >= WorldBlocksSingleton::getInstance()->getWidth() || row < 0 || row >= WorldBlocksSingleton::getInstance()->getHeight()) {
-                continue;
-              }
-
-              WorldBlocksSingleton::getInstance()->setBlockType(column, row, BlockType::VOID);
+    for (int i = 0; i < (int)mobs.size(); i++) {
+      if (mobs[i]->requestDelete()) {
+        Rectangle bb = mobs[i]->getBoundingBox();
+        for (int row = bb.getRowMin() - 2; row <= bb.getRowMax() + 2; row++) {
+          for (int column = bb.getColumnMin() - 2; column <= bb.getColumnMin() + 2; column++) {
+            if (column < 0 || column >= WorldBlocksSingleton::getInstance()->getWidth() || row < 0 || row >= WorldBlocksSingleton::getInstance()->getHeight()) {
+              continue;
             }
+            WorldBlocksSingleton::getInstance()->setBlockType(column, row, BlockType::VOID);
           }
-          cout << "bum bum\n";
-          swap(mobs[i], mobs[dim - 1]);
-          mobs[dim - 1].reset();
-          dim--;
-          i--;
         }
-        //cout << "exista\n";
+        swap(mobs[i], mobs.back());
+        mobs.back().reset();
+        mobs.pop_back();
+        i--;
       }
     }
-    mobs.resize(dim);
   }
 
   return 0;
