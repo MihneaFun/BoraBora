@@ -7,6 +7,8 @@ GenericMob::GenericMob() {
 }
 
 bool GenericMob::physicsUpdate(float dt) {
+  addForce(sf::Vector2f(-getVelocity().x, 0) * 0.004f);
+  addForce(sf::Vector2f(0, -0.1));
   applyForces();
   clearForces();
   bool invalid = false;

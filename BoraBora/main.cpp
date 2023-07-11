@@ -3,6 +3,7 @@
 #include "TextureType.h"
 #include "BlockType.h"
 
+#include "MobContainerSingleton.h"
 #include "KeyboardAndMouseSingleton.h"
 #include "MissileMob.h"
 #include "PlayableMob.h"
@@ -35,12 +36,15 @@ int main() {
 
   // World stuff:
   WorldBlocksSingleton::createInstance(10000, 200);
+  MobContainerSingleton::createInstance();
+  
 
-  vector<unique_ptr<GenericMob>> mobs;
+  {
+    unique_ptr<GenericMob> ptr = make_unique<PlayableMob>();
+    ptr->teleport(10, 20);
+    MobContainerSingleton::getInstance()->addMob(move(ptr));
+  }
 
-  mobs.push_back(make_unique<PlayableMob>());
-
-  mobs[0]->teleport(10, 20);
 
   sf::View view;
   view.setSize(sf::Vector2f(1, -1));
@@ -77,106 +81,11 @@ int main() {
       }
     }
 
-    if (KeyboardAndMouseSingleton::getInstance()->isKeyJustPressed((sf::Keyboard::Space))) {
-      mobs[0]->addForce(sf::Vector2f(0, 10));
-    }
-
-    bool is = (sf::Joystick::isConnected(0) && sf::Joystick::isButtonPressed(0, 0));
-    bool isB = (sf::Joystick::isConnected(0) && sf::Joystick::isButtonPressed(0, 1));
-    bool isX = (sf::Joystick::isConnected(0) && sf::Joystick::isButtonPressed(0, 2));
-    if (!was && is) {
-      mobs[0]->addForce(sf::Vector2f(0, 10));
-    }
-    if (!wasB && isB) {
-      mobs.push_back(make_unique<MissileMob>());
-      sf::Vector2f loc = mobs[0]->getCenter();
-      mobs.back()->teleport(loc.x, loc.y);
-      mobs.back()->setVelocity(sf::Vector2f(20, 0));
-      if (doesRectangleIntersectNonVoidBlocks(mobs.back()->getBoundingBox())) {
-        mobs.back().reset();
-        mobs.pop_back();
-        cout << "it hits\n";
-      }
-    }
-    if (!wasX && isX) {
-      mobs.push_back(make_unique<MissileMob>());
-      sf::Vector2f loc = mobs[0]->getCenter();
-      mobs.back()->teleport(loc.x, loc.y);
-      mobs.back()->setVelocity(sf::Vector2f(-20, 0));
-      if (doesRectangleIntersectNonVoidBlocks(mobs.back()->getBoundingBox())) {
-        mobs.back().reset();
-        mobs.pop_back();
-        cout << "it hits\n";
-      }
-    }
-    was = is;
-    wasB = isB;
-    wasX = isX;
-    if (KeyboardAndMouseSingleton::getInstance()->isKeyJustPressed((sf::Keyboard::L))) {
-      mobs.push_back(make_unique<MissileMob>());
-      sf::Vector2f loc = mobs[0]->getCenter();
-      mobs.back()->teleport(loc.x, loc.y);
-      mobs.back()->setVelocity(sf::Vector2f(20, 0));
-      if (doesRectangleIntersectNonVoidBlocks(mobs.back()->getBoundingBox())) {
-        mobs.back().reset();
-        mobs.pop_back();
-        cout << "it hits\n";
-      }
-    }
-    if (KeyboardAndMouseSingleton::getInstance()->isKeyJustPressed((sf::Keyboard::J))) {
-      mobs.push_back(make_unique<MissileMob>());
-      sf::Vector2f loc = mobs[0]->getCenter();
-      mobs.back()->teleport(loc.x, loc.y);
-      mobs.back()->setVelocity(sf::Vector2f(-20, 0));
-      if (doesRectangleIntersectNonVoidBlocks(mobs.back()->getBoundingBox())) {
-        mobs.back().reset();
-        mobs.pop_back();
-        cout << "it hits\n";
-      }
-    }
-
-    for (auto& mob : mobs) {
-      mob->addForce(sf::Vector2f(-mob->getVelocity().x, 0) * 0.004f);
-    }
-
-    // Handle mob movement
-    sf::Vector2f force(0.0f, 0.0f);
-
-    if (KeyboardAndMouseSingleton::getInstance()->isKeyPressed((sf::Keyboard::A))) {
-      force.x -= 1;
-    }
-    if (KeyboardAndMouseSingleton::getInstance()->isKeyPressed((sf::Keyboard::D))) {
-      force.x += 1;
-    }
-
-    if (sf::Joystick::isConnected(0)) {
-      float position = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
-      if (position > 50) {
-        force.x += 1;
-      }
-      if (position < -50) {
-        force.x -= 1;
-      }
-      //std::cout << "X-axis position: " << position << std::endl;
-    }
-
-    force *= mob_speed;
-
-    // Scale the force by dt to make the movement time-dependent
-    force = force * fixedDT;
-
-    // Apply the calculated force to the mob
-    mobs[0]->addForce(force);
-
-    for (auto& mob : mobs) {
-      mob->addForce(sf::Vector2f(0, -0.1));
-    }
-
     timeSinceLastUpdate += clock.restart();
     frames++;
 
     if (timeSinceLastUpdate > sf::seconds(1.0f)) {
-      std::cout << "FPS: " << frames << ", " << (int)mobs.size() << "\n";
+      std::cout << "FPS: " << frames << "\n";
       frames = 0;
       timeSinceLastUpdate -= sf::seconds(1.0f);
     }
@@ -184,27 +93,17 @@ int main() {
     window.clear();
 
     Rectangle windowRectangle(0.20, 0.8, 0.20, 0.8);
-
-    if (PlayableMob* mob = dynamic_cast<PlayableMob*>(mobs[0].get())) {
-      x = mob->getColumn() - 15;
-      y = mob->getRow() - 15;
+    {
+      Rectangle r = MobContainerSingleton::getInstance()->m_mobs[0]->getBoundingBox();
+      float xm, ym;
+      xm = (r.getColumnMin() + r.getColumnMax()) * 0.5;
+      ym = (r.getRowMin() + r.getRowMax()) * 0.5;
+      x = xm - 15;
+      y = ym - 15;
     }
-    else {
-      cout << "Why in the name of Newton's apple isn't the first mob a PlayableMob?\n";
-      exit(0);;
-    }
-
     Rectangle worldRectangle(y, y + 30, x + 0, x + 30);
 
-    if (0) {
-      sf::RectangleShape shape;
-      shape.setSize(sf::Vector2f(1000, 1000));
-      shape.setPosition(sf::Vector2f(0, 0));
-      shape.setFillColor(sf::Color::Yellow);
-      window.draw(shape);
-    }
-
-    WorldDrawerSingleton::getInstance(window)->drawWorldOnWindow(windowRectangle, worldRectangle, mobs);
+    WorldDrawerSingleton::getInstance(window)->drawWorldOnWindow(windowRectangle, worldRectangle, MobContainerSingleton::getInstance()->m_mobs);
 
     if (0) {
       sf::Vector2f worldPos = window.mapPixelToCoords(sf::Mouse::getPosition(window), window.getView());
@@ -218,15 +117,13 @@ int main() {
       window.draw(shape);
     }
 
-    for (auto& mob : mobs) {
-      mob->update(fixedDT);
-    }
+    MobContainerSingleton::getInstance()->updateAllMobs(fixedDT);
 
     window.display();
 
-    for (int i = 0; i < (int)mobs.size(); i++) {
-      if (mobs[i]->requestDelete()) {
-        Rectangle bb = mobs[i]->getBoundingBox();
+    for (int i = 0; i < (int)MobContainerSingleton::getInstance()->m_mobs.size(); i++) {
+      if (MobContainerSingleton::getInstance()->m_mobs[i]->requestDelete()) {
+        Rectangle bb = MobContainerSingleton::getInstance()->m_mobs[i]->getBoundingBox();
         for (int row = bb.getRowMin() - 2; row <= bb.getRowMax() + 2; row++) {
           for (int column = bb.getColumnMin() - 2; column <= bb.getColumnMin() + 2; column++) {
             if (column < 0 || column >= WorldBlocksSingleton::getInstance()->getWidth() || row < 0 || row >= WorldBlocksSingleton::getInstance()->getHeight()) {
@@ -235,9 +132,9 @@ int main() {
             WorldBlocksSingleton::getInstance()->setBlockType(column, row, BlockType::VOID);
           }
         }
-        swap(mobs[i], mobs.back());
-        mobs.back().reset();
-        mobs.pop_back();
+        swap(MobContainerSingleton::getInstance()->m_mobs[i], MobContainerSingleton::getInstance()->m_mobs.back());
+        MobContainerSingleton::getInstance()->m_mobs.back().reset();
+        MobContainerSingleton::getInstance()->m_mobs.pop_back();
         i--;
       }
     }
@@ -245,6 +142,3 @@ int main() {
 
   return 0;
 }
-// dynamic cast e foarte foarte foarte shitty pe hot path 
-// my code stinks badly 
-// to Do : delete update from Generic Mob class and all mob classes

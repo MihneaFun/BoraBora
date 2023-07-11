@@ -5,13 +5,13 @@
 
 class GenericMob : public sf::Drawable {
 protected:
-  bool physicsUpdate(float dt);
+  bool physicsUpdate(float dt); // returns true if the mob touches a world block and false if it doesn't 
 
 public:
   GenericMob();
 
   virtual bool requestDelete() = 0;
-  virtual void update(float dt) = 0;
+  virtual void update(float dt, std::vector<std::unique_ptr<GenericMob>>& mobs) = 0;
   virtual void addForce(const sf::Vector2f& force) = 0;
   virtual void applyForces() = 0;
   virtual void teleport(float column, float row) = 0;

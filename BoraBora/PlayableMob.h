@@ -7,9 +7,9 @@
 class PlayableMob : public GenericMob {
 public:
   PlayableMob();
-
+  bool m_was, m_wasB, m_wasX;
   virtual bool requestDelete() override;
-  void update(float dt) override;
+  void update(float dt, std::vector<std::unique_ptr<GenericMob>>& mobs) override;
 
   void addForce(const sf::Vector2f& force) override;
   void applyForces() override;
