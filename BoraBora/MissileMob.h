@@ -37,7 +37,7 @@ public:
 
   void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
   
-  void update(float dt, std::vector<std::unique_ptr<GenericMob>>& mobs) override;
+  void update(float dt) override;
 
   bool isExploding() const;
 

@@ -37,7 +37,7 @@ int main() {
   // World stuff:
   WorldBlocksSingleton::createInstance(10000, 200);
   MobContainerSingleton::createInstance();
-  
+
 
   {
     unique_ptr<GenericMob> ptr = make_unique<PlayableMob>();
@@ -85,16 +85,15 @@ int main() {
     frames++;
 
     if (timeSinceLastUpdate > sf::seconds(1.0f)) {
-      std::cout << "FPS: " << frames << "\n";
+      std::cout << "FPS: " << frames << ", " << MobContainerSingleton::getInstance()->getMobCount() << "\n";
       frames = 0;
       timeSinceLastUpdate -= sf::seconds(1.0f);
     }
 
     window.clear();
-
     Rectangle windowRectangle(0.20, 0.8, 0.20, 0.8);
     {
-      Rectangle r = MobContainerSingleton::getInstance()->m_mobs[0]->getBoundingBox();
+      Rectangle r = MobContainerSingleton::getInstance()->getMob(0)->getBoundingBox();
       float xm, ym;
       xm = (r.getColumnMin() + r.getColumnMax()) * 0.5;
       ym = (r.getRowMin() + r.getRowMax()) * 0.5;
@@ -103,7 +102,7 @@ int main() {
     }
     Rectangle worldRectangle(y, y + 30, x + 0, x + 30);
 
-    WorldDrawerSingleton::getInstance(window)->drawWorldOnWindow(windowRectangle, worldRectangle, MobContainerSingleton::getInstance()->m_mobs);
+    WorldDrawerSingleton::getInstance(window)->drawWorldOnWindow(windowRectangle, worldRectangle);
 
     if (0) {
       sf::Vector2f worldPos = window.mapPixelToCoords(sf::Mouse::getPosition(window), window.getView());
@@ -117,27 +116,11 @@ int main() {
       window.draw(shape);
     }
 
-    MobContainerSingleton::getInstance()->updateAllMobs(fixedDT);
+    MobContainerSingleton::getInstance()->update(fixedDT);
+
+
 
     window.display();
-
-    for (int i = 0; i < (int)MobContainerSingleton::getInstance()->m_mobs.size(); i++) {
-      if (MobContainerSingleton::getInstance()->m_mobs[i]->requestDelete()) {
-        Rectangle bb = MobContainerSingleton::getInstance()->m_mobs[i]->getBoundingBox();
-        for (int row = bb.getRowMin() - 2; row <= bb.getRowMax() + 2; row++) {
-          for (int column = bb.getColumnMin() - 2; column <= bb.getColumnMin() + 2; column++) {
-            if (column < 0 || column >= WorldBlocksSingleton::getInstance()->getWidth() || row < 0 || row >= WorldBlocksSingleton::getInstance()->getHeight()) {
-              continue;
-            }
-            WorldBlocksSingleton::getInstance()->setBlockType(column, row, BlockType::VOID);
-          }
-        }
-        swap(MobContainerSingleton::getInstance()->m_mobs[i], MobContainerSingleton::getInstance()->m_mobs.back());
-        MobContainerSingleton::getInstance()->m_mobs.back().reset();
-        MobContainerSingleton::getInstance()->m_mobs.pop_back();
-        i--;
-      }
-    }
   }
 
   return 0;

@@ -26,5 +26,5 @@ public:
   static WorldDrawerSingleton* getInstance(sf::RenderWindow& window);
   static void createInstance(sf::RenderWindow& window);
   static void destroy();
-  void drawWorldOnWindow(Rectangle windowRectangle, Rectangle worldRectangle, const std::vector<std::unique_ptr<GenericMob>>& mobs);
+  void drawWorldOnWindow(Rectangle windowRectangle, Rectangle worldRectangle);
 };

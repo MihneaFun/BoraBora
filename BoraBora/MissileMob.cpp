@@ -11,7 +11,7 @@ bool MissileMob::requestDelete() {
   return isExploding();
 }
 
-void MissileMob::update(float dt, std::vector<std::unique_ptr<GenericMob>>& mobs) {
+void MissileMob::update(float dt) {
   bool touch = physicsUpdate(dt);
   if (touch) {
     ignite();

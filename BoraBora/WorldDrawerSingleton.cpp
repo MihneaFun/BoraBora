@@ -5,6 +5,7 @@
 #include "GenericMob.h"
 #include "PlayableMob.h"
 #include "MissileMob.h"
+#include "MobContainerSingleton.h"
 #include <vector>
 
 WorldDrawerSingleton* WorldDrawerSingleton::r_WorldDrawerSingleton = nullptr;
@@ -33,7 +34,7 @@ void WorldDrawerSingleton::destroy() {
   }
 }
 
-void WorldDrawerSingleton::drawWorldOnWindow(Rectangle windowRectangle, Rectangle worldRectangle, const std::vector<std::unique_ptr<GenericMob>>& mobs) {
+void WorldDrawerSingleton::drawWorldOnWindow(Rectangle windowRectangle, Rectangle worldRectangle) {
   {
     m_camera.clear();
     int startColumn = static_cast<int>(worldRectangle.getColumnMin()) - 2;
@@ -96,8 +97,8 @@ void WorldDrawerSingleton::drawWorldOnWindow(Rectangle windowRectangle, Rectangl
     m_camera.setCenter((sf::Vector2f(xmin, ymin) + sf::Vector2f(xmax, ymax)) * 0.5f);
     m_camera.draw(m_vertexArray, &TextureAtlasSingleton::getInstance()->getTextureBand());
 
-    for (auto& mob : mobs) {
-      m_camera.draw(*mob);
+    for (int i = 0; i < MobContainerSingleton::getInstance()->getMobCount(); i++) {
+      m_camera.draw(*MobContainerSingleton::getInstance()->getMob(i));
     }
     // windowRectangle = view port
     m_camera.drawCamera(windowRectangle, m_window);

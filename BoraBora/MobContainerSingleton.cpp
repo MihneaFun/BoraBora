@@ -2,6 +2,7 @@
 
 #include "MobContainerSingleton.h"
 #include "GenericMob.h"
+#include "WorldBlocksSingleton.h"
 
 MobContainerSingleton* MobContainerSingleton::m_instance;
 
@@ -35,8 +36,25 @@ void MobContainerSingleton::eraseLastMob() {
   }
 }
 
-void MobContainerSingleton::updateAllMobs(float dt) {
+void MobContainerSingleton::update(float dt) {
   for (int i = 0; i < (int)m_mobs.size(); i++) {
-    m_mobs[i]->update(dt, m_mobs);
+    m_mobs[i]->update(dt);
+  }
+  for (int i = 0; i < (int)m_mobs.size(); i++) {
+    if (m_mobs[i]->requestDelete()) {
+      Rectangle bb = m_mobs[i]->getBoundingBox();
+      for (int row = bb.getRowMin() - 2; row <= bb.getRowMax() + 2; row++) {
+        for (int column = bb.getColumnMin() - 2; column <= bb.getColumnMin() + 2; column++) {
+          if (column < 0 || column >= WorldBlocksSingleton::getInstance()->getWidth() || row < 0 || row >= WorldBlocksSingleton::getInstance()->getHeight()) {
+            continue;
+          }
+          WorldBlocksSingleton::getInstance()->setBlockType(column, row, BlockType::VOID);
+        }
+      }
+      swap(m_mobs[i], m_mobs.back());
+      m_mobs.back().reset();
+      m_mobs.pop_back();
+      i--;
+    }
   }
 }
