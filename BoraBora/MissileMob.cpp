@@ -4,7 +4,6 @@
 #include "TextureAtlasSingleton.h"
 #include "TextureType.h"
 #include <iostream>
-#include "FloatingItemsSingleton.h"
 #include "WorldBlocksSingleton.h"
 #include "MobContainerSingleton.h"
 #include "FloatingBlockMob.h"

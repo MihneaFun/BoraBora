@@ -7,7 +7,6 @@
 #include "MissileMob.h"
 #include "MobContainerSingleton.h"
 #include <vector>
-#include "FloatingItemsSingleton.h"
 #include "WorldBlocksSingleton.h"
 
 WorldDrawerSingleton* WorldDrawerSingleton::r_WorldDrawerSingleton = nullptr;
@@ -98,10 +97,6 @@ void WorldDrawerSingleton::drawWorldOnWindow(Rectangle windowRectangle, Rectangl
       m_camera.setSize(sf::Vector2f(xmax - xmin, ymax - ymin));
       m_camera.setCenter((sf::Vector2f(xmin, ymin) + sf::Vector2f(xmax, ymax)) * 0.5f);
       m_camera.draw(m_vertexArray, &TextureAtlasSingleton::getInstance()->getTextureBand());
-    }
-    {
-      FloatingItemsSingleton::getInstance()->loadVertexArray();
-      m_camera.draw(*FloatingItemsSingleton::getInstance());
     }
     for (int i = 0; i < MobContainerSingleton::getInstance()->getMobCount(); i++) {
       m_camera.draw(*MobContainerSingleton::getInstance()->getMob(i));

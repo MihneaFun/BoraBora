@@ -64,9 +64,6 @@
     <Filter Include="Source Files\Mobs\MobContainerSingleton">
       <UniqueIdentifier>{80d08562-e2e3-496f-ad72-b6befe4f3970}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\FloatingItemsSingleton">
-      <UniqueIdentifier>{428e430c-2bfd-46d4-8833-a3a1be2cff75}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Quad">
       <UniqueIdentifier>{5ce2f1ee-ec5b-4a40-b084-8e8bd8e7ee35}</UniqueIdentifier>
     </Filter>
@@ -113,9 +110,6 @@
     </ClCompile>
     <ClCompile Include="MobContainerSingleton.cpp">
       <Filter>Source Files\Mobs\MobContainerSingleton</Filter>
-    </ClCompile>
-    <ClCompile Include="FloatingItemsSingleton.cpp">
-      <Filter>Source Files\FloatingItemsSingleton</Filter>
     </ClCompile>
     <ClCompile Include="Quad.cpp">
       <Filter>Source Files\Quad</Filter>
@@ -166,9 +160,6 @@
     </ClInclude>
     <ClInclude Include="MobContainerSingleton.h">
       <Filter>Source Files\Mobs\MobContainerSingleton</Filter>
-    </ClInclude>
-    <ClInclude Include="FloatingItemsSingleton.h">
-      <Filter>Source Files\FloatingItemsSingleton</Filter>
     </ClInclude>
     <ClInclude Include="Quad.h">
       <Filter>Source Files\Quad</Filter>

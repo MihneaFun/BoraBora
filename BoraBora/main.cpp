@@ -3,7 +3,6 @@
 #include "TextureType.h"
 #include "BlockType.h"
 
-#include "FloatingItemsSingleton.h"
 #include "MobContainerSingleton.h"
 #include "KeyboardAndMouseSingleton.h"
 #include "MissileMob.h"
@@ -38,7 +37,6 @@ int main() {
   // World stuff:
   WorldBlocksSingleton::createInstance(10000, 200);
   MobContainerSingleton::createInstance();
-  FloatingItemsSingleton::createInstance();
 
   {
     unique_ptr<GenericMob> ptr = make_unique<PlayableMob>();

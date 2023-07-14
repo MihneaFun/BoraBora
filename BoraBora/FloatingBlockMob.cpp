@@ -4,7 +4,6 @@
 #include "TextureAtlasSingleton.h"
 #include "TextureType.h"
 #include <iostream>
-#include "FloatingItemsSingleton.h"
 #include "WorldBlocksSingleton.h"
 
 FloatingBlockMob::FloatingBlockMob() : m_mass(1.0f) {}
