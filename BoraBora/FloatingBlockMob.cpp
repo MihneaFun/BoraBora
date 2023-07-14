@@ -41,7 +41,7 @@ void FloatingBlockMob::applyForces() {
   // F = m*a, therefore a = F/m. Multiply by dt to get the change in velocity.
   sf::Vector2f acceleration = m_totalForce / m_mass;
   m_velocity += acceleration;
-  
+
 }
 
 void FloatingBlockMob::teleport(float column, float row) {

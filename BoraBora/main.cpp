@@ -21,16 +21,10 @@
 #include <iomanip>
 #include <cassert>
 #include <vector>
-#include "FloatingPointFunctions.h"
 
 using namespace std;
 
 int main() {
-  //if (1) {
-  //  float x = 8.001;
-  //  cout << " : " << fixed << setprecision(6) << x << " " << my_floor(x) << " " << my_ceil(x) << "\n";
-  //  exit(0);
-  //}
   sf::RenderWindow window(sf::VideoMode(900, 900), "SFML works!");
 
   // Texture stuff:
@@ -92,12 +86,10 @@ int main() {
     frames++;
 
     if (timeSinceLastUpdate > sf::seconds(1.0f)) {
-      std::cout << "FPS: " << frames << ", " << MobContainerSingleton::getInstance()->getMobCount() << ", cnt checks = " << WorldBlocksSingleton::getInstance()->nr << " | " << WorldBlocksSingleton::getInstance()->nr2 << "\n";
+      std::cout << "FPS: " << frames << ", " << MobContainerSingleton::getInstance()->getMobCount() << "\n";
       frames = 0;
       timeSinceLastUpdate -= sf::seconds(1.0f);
     }
-    WorldBlocksSingleton::getInstance()->nr = 0;
-    WorldBlocksSingleton::getInstance()->nr2 = 0;
     
     window.clear();
     Rectangle windowRectangle(0.20, 0.8, 0.20, 0.8);

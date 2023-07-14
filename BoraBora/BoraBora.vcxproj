@@ -149,7 +149,6 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="FloatingBlockMob.cpp" />
     <ClCompile Include="FloatingItemsSingleton.cpp" />
-    <ClCompile Include="FloatingPointFunctions.cpp" />
     <ClCompile Include="GeneralTextureLinkSingleton.cpp" />
     <ClCompile Include="GeneralTextureManagerSingleton.cpp" />
     <ClCompile Include="GenericMob.cpp" />
@@ -169,7 +168,6 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="FloatingBlockMob.h" />
     <ClInclude Include="FloatingItemsSingleton.h" />
-    <ClInclude Include="FloatingPointFunctions.h" />
     <ClInclude Include="GeneralTextureLinkSingleton.h" />
     <ClInclude Include="GeneralTextureManagerSingleton.h" />
     <ClInclude Include="GenericMob.h" />

@@ -85,13 +85,6 @@ void WorldDrawerSingleton::drawWorldOnWindow(Rectangle windowRectangle, Rectangl
           m_vertexArray[y + 2] = bottomRight;
           m_vertexArray[y + 3] = bottomLeft;
 
-          if (WorldBlocksSingleton::getInstance()->spec.count({ column, row })) {
-            for (int j = y; j < y + 4; j++) {
-              m_vertexArray[j].color = sf::Color::Yellow;
-              m_vertexArray[j].texCoords = sf::Vector2f(0, 0);
-            }
-          }
-
           y += 4;
         }
       }
@@ -116,6 +109,4 @@ void WorldDrawerSingleton::drawWorldOnWindow(Rectangle windowRectangle, Rectangl
     // windowRectangle = view port
     m_camera.drawCamera(windowRectangle, m_window);
   }
-
-  WorldBlocksSingleton::getInstance()->spec.clear();
 }
