@@ -36,7 +36,7 @@ void FloatingBlockMob::addForce(const sf::Vector2f& force) {
 
 void FloatingBlockMob::applyForces() {
   // no physics on floating blocks! (for now)
-  return;
+  //return;
   // F = m*a, therefore a = F/m. Multiply by dt to get the change in velocity.
   sf::Vector2f acceleration = m_totalForce / m_mass;
   m_velocity += acceleration;
@@ -111,16 +111,35 @@ void FloatingBlockMob::draw(sf::RenderTarget& renderTarget, sf::RenderStates ren
   varray[2].position = sf::Vector2f(pos.getColumnMax(), pos.getRowMax());
   varray[3].position = sf::Vector2f(pos.getColumnMax(), pos.getRowMin());
 
-  Rectangle rect = TextureAtlasSingleton::getInstance()->getTextureRectangle(TextureType::MOB_MISSILE);
-  varray[0].texCoords = sf::Vector2f(rect.getColumnMin(), rect.getRowMin());
-  varray[1].texCoords = sf::Vector2f(rect.getColumnMin(), rect.getRowMax());
-  varray[2].texCoords = sf::Vector2f(rect.getColumnMax(), rect.getRowMax());
-  varray[3].texCoords = sf::Vector2f(rect.getColumnMax(), rect.getRowMin());
+  TextureType type = TextureType::COUNT;
+
+  if (m_blockType == BlockType::DIAMOND) type = TextureType::BLOCK_DIAMOND;
+  if (m_blockType == BlockType::DIRT) type = TextureType::BLOCK_DIRT;
+  if (m_blockType == BlockType::VOID) type = TextureType::BLOCK_VOID;
+
+  assert(type != TextureType::COUNT);
+
+
+  Rectangle rect = TextureAtlasSingleton::getInstance()->getTextureRectangle(type);
+  varray[0].texCoords = sf::Vector2f(rect.getRowMin(), rect.getColumnMin());
+  varray[1].texCoords = sf::Vector2f(rect.getRowMin(), rect.getColumnMax());
+  varray[2].texCoords = sf::Vector2f(rect.getRowMax(), rect.getColumnMax());
+  varray[3].texCoords = sf::Vector2f(rect.getRowMax(), rect.getColumnMin());
 
   for (int i = 0; i < 4; i++) {
-    std::swap(varray[i].texCoords.x, varray[i].texCoords.y);
+    varray[i].color = sf::Color::Green;
   }
-
+  
+  // shady
   renderStates.texture = &TextureAtlasSingleton::getInstance()->getTextureBand();
   renderTarget.draw(varray, renderStates);
+}
+
+
+void FloatingBlockMob::setBlockType(BlockType blockType) {
+  m_blockType = blockType;
+}
+
+BlockType FloatingBlockMob::getBlockType() const {
+  return m_blockType;
 }

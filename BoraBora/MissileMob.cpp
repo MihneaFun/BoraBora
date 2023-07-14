@@ -23,8 +23,8 @@ void MissileMob::killFromWorld() {
       std::unique_ptr<FloatingBlockMob> ptr = std::make_unique<FloatingBlockMob>();
       ptr->teleport(column + 0.5, row + 0.5);
       ptr->setVelocity(sf::Vector2f(0, 0));
+      ptr->setBlockType(WorldBlocksSingleton::getInstance()->getBlockType(column, row));
       MobContainerSingleton::getInstance()->addMob(std::move(ptr));
-      //FloatingItemsSingleton::getInstance()->add(WorldBlocksSingleton::getInstance()->getBlockType(column, row), column, row);
       WorldBlocksSingleton::getInstance()->setBlockType(column, row, BlockType::VOID);
     }
   }

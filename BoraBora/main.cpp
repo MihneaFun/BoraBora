@@ -128,3 +128,5 @@ int main() {
 // ctrl shift f => ctrl find peste tot
 // rider -> jetBrains
 // implement dda
+// ctrl shift F shady
+// 

@@ -3,6 +3,7 @@
 #include "GenericMob.h"
 #include "Rectangle.h"
 #include <SFML/System/Vector2.hpp>
+#include "BlockType.h"
 
 class FloatingBlockMob : public GenericMob {
 public:
@@ -39,7 +40,13 @@ public:
 
   void killFromWorld() override;
 
+  void setBlockType(BlockType blockType);
+
+  BlockType getBlockType() const;
+
 private:
+
+  BlockType m_blockType;
 
   float m_column;
   float m_row;
