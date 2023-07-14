@@ -47,7 +47,10 @@ float Rectangle::getColumnMax() const {
   return m_colmax;
 }
 
+
+
 bool doRectanglesIntersect(const Rectangle& r1, const Rectangle& r2) {
+  WorldBlocksSingleton::getInstance()->nr++;
   // Condition for non-overlapping rectangles.
   if (r1.getRowMin() > r2.getRowMax() || r2.getRowMin() > r1.getRowMax() ||
     r1.getColumnMin() > r2.getColumnMax() || r2.getColumnMin() > r1.getColumnMax()) {

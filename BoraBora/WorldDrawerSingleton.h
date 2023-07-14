@@ -6,6 +6,7 @@
 #include "TextureAtlasSingleton.h"
 #include "Camera.h"
 #include <vector>
+#include <set>
 #include "GenericMob.h"
 
 class WorldDrawerSingleton {
@@ -21,6 +22,7 @@ private:
 
 public:
 
+  
   Camera m_camera;
 
   static WorldDrawerSingleton* getInstance(sf::RenderWindow& window);

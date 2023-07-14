@@ -147,6 +147,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="FloatingBlockMob.cpp" />
+    <ClCompile Include="FloatingItemsSingleton.cpp" />
+    <ClCompile Include="FloatingPointFunctions.cpp" />
     <ClCompile Include="GeneralTextureLinkSingleton.cpp" />
     <ClCompile Include="GeneralTextureManagerSingleton.cpp" />
     <ClCompile Include="GenericMob.cpp" />
@@ -155,6 +158,7 @@
     <ClCompile Include="MissileMob.cpp" />
     <ClCompile Include="MobContainerSingleton.cpp" />
     <ClCompile Include="PlayableMob.cpp" />
+    <ClCompile Include="Quad.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="TextureAtlasSingleton.cpp" />
     <ClCompile Include="WorldBlocksSingleton.cpp" />
@@ -163,6 +167,9 @@
   <ItemGroup>
     <ClInclude Include="BlockType.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="FloatingBlockMob.h" />
+    <ClInclude Include="FloatingItemsSingleton.h" />
+    <ClInclude Include="FloatingPointFunctions.h" />
     <ClInclude Include="GeneralTextureLinkSingleton.h" />
     <ClInclude Include="GeneralTextureManagerSingleton.h" />
     <ClInclude Include="GenericMob.h" />
@@ -170,6 +177,7 @@
     <ClInclude Include="MissileMob.h" />
     <ClInclude Include="MobContainerSingleton.h" />
     <ClInclude Include="PlayableMob.h" />
+    <ClInclude Include="Quad.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="TextureAtlasSingleton.h" />
     <ClInclude Include="TextureType.h" />

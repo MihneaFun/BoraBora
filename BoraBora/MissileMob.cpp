@@ -4,8 +4,33 @@
 #include "TextureAtlasSingleton.h"
 #include "TextureType.h"
 #include <iostream>
+#include "FloatingItemsSingleton.h"
+#include "WorldBlocksSingleton.h"
+#include "MobContainerSingleton.h"
+#include "FloatingBlockMob.h"
 
 MissileMob::MissileMob() : m_mass(1.0f), m_igniting(false), m_remainingIgnitingTime(2) {}
+
+void MissileMob::killFromWorld() {
+  Rectangle bb = getBoundingBox();
+  for (int row = bb.getRowMin() - 2; row <= bb.getRowMax() + 2; row++) {
+    for (int column = bb.getColumnMin() - 2; column <= bb.getColumnMin() + 2; column++) {
+      if (column < 0 || column >= WorldBlocksSingleton::getInstance()->getWidth() || row < 0 || row >= WorldBlocksSingleton::getInstance()->getHeight()) {
+        continue;
+      }
+      if (WorldBlocksSingleton::getInstance()->getBlockType(column, row) == BlockType::VOID) {
+        continue;
+      }
+      std::unique_ptr<FloatingBlockMob> ptr = std::make_unique<FloatingBlockMob>();
+      ptr->teleport(column + 0.5, row + 0.5);
+      ptr->setVelocity(sf::Vector2f(0, 0));
+      MobContainerSingleton::getInstance()->addMob(std::move(ptr));
+      //FloatingItemsSingleton::getInstance()->add(WorldBlocksSingleton::getInstance()->getBlockType(column, row), column, row);
+      WorldBlocksSingleton::getInstance()->setBlockType(column, row, BlockType::VOID);
+    }
+  }
+}
+
 
 bool MissileMob::requestDelete() {
   return isExploding();

@@ -9,7 +9,7 @@ public:
   MissileMob();
 
 
-  virtual bool requestDelete() override;
+  bool requestDelete() override;
   void ignite();
   void addForce(const sf::Vector2f& force) override;
   void applyForces() override;
@@ -28,7 +28,7 @@ public:
 
   float getRow() const;
   float getColumn() const;
-
+  
   sf::Vector2f getVelocity() const override;
 
   Rectangle getBoundingBoxGivenPosition(float row, float column) const;
@@ -40,6 +40,8 @@ public:
   void update(float dt) override;
 
   bool isExploding() const;
+
+  void killFromWorld() override;
 
 private:
 

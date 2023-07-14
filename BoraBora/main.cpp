@@ -3,6 +3,7 @@
 #include "TextureType.h"
 #include "BlockType.h"
 
+#include "FloatingItemsSingleton.h"
 #include "MobContainerSingleton.h"
 #include "KeyboardAndMouseSingleton.h"
 #include "MissileMob.h"
@@ -20,10 +21,16 @@
 #include <iomanip>
 #include <cassert>
 #include <vector>
+#include "FloatingPointFunctions.h"
 
 using namespace std;
 
 int main() {
+  //if (1) {
+  //  float x = 8.001;
+  //  cout << " : " << fixed << setprecision(6) << x << " " << my_floor(x) << " " << my_ceil(x) << "\n";
+  //  exit(0);
+  //}
   sf::RenderWindow window(sf::VideoMode(900, 900), "SFML works!");
 
   // Texture stuff:
@@ -37,7 +44,7 @@ int main() {
   // World stuff:
   WorldBlocksSingleton::createInstance(10000, 200);
   MobContainerSingleton::createInstance();
-
+  FloatingItemsSingleton::createInstance();
 
   {
     unique_ptr<GenericMob> ptr = make_unique<PlayableMob>();
@@ -85,11 +92,13 @@ int main() {
     frames++;
 
     if (timeSinceLastUpdate > sf::seconds(1.0f)) {
-      std::cout << "FPS: " << frames << ", " << MobContainerSingleton::getInstance()->getMobCount() << "\n";
+      std::cout << "FPS: " << frames << ", " << MobContainerSingleton::getInstance()->getMobCount() << ", cnt checks = " << WorldBlocksSingleton::getInstance()->nr << " | " << WorldBlocksSingleton::getInstance()->nr2 << "\n";
       frames = 0;
       timeSinceLastUpdate -= sf::seconds(1.0f);
     }
-
+    WorldBlocksSingleton::getInstance()->nr = 0;
+    WorldBlocksSingleton::getInstance()->nr2 = 0;
+    
     window.clear();
     Rectangle windowRectangle(0.20, 0.8, 0.20, 0.8);
     {
@@ -125,3 +134,7 @@ int main() {
 
   return 0;
 }
+// de adaugat set Smooth la texturi sau Mipmap <-- articole pe wikipedia
+// ctrl shift f => ctrl find peste tot
+// rider -> jetBrains
+// implement dda

@@ -4,13 +4,11 @@
 #include "Rectangle.h"
 #include <SFML/System/Vector2.hpp>
 
-class PlayableMob : public GenericMob {
+class FloatingBlockMob : public GenericMob {
 public:
-  PlayableMob();
-  bool m_was, m_wasB, m_wasX;
-  virtual bool requestDelete() override;
-  void update(float dt) override;
+  FloatingBlockMob();
 
+  bool requestDelete() override;
   void addForce(const sf::Vector2f& force) override;
   void applyForces() override;
   void justElapseDtX(float dt) override;
@@ -32,12 +30,15 @@ public:
   sf::Vector2f getVelocity() const override;
 
   Rectangle getBoundingBoxGivenPosition(float row, float column) const;
-  
+
   sf::Vector2f getCenter() const override;
 
-
   void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+
+  void update(float dt) override;
+
   void killFromWorld() override;
+
 private:
 
   float m_column;

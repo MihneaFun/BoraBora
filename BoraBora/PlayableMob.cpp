@@ -4,6 +4,7 @@
 #include "KeyboardAndMouseSingleton.h"
 #include "MissileMob.h"
 #include "MobContainerSingleton.h"
+#include "FloatingItemsSingleton.h"
 #include <iostream>
 
 PlayableMob::PlayableMob() : m_mass(1.0f), m_was(0), m_wasB(0), m_wasX(0) {}
@@ -12,10 +13,16 @@ bool PlayableMob::requestDelete() {
   return false;
 }
 
+void PlayableMob::killFromWorld() {
+
+}
+
 void PlayableMob::update(float dt) {
   if (KeyboardAndMouseSingleton::getInstance()->isKeyJustPressed((sf::Keyboard::Space))) {
     addForce(sf::Vector2f(0, 10));
   }
+
+  FloatingItemsSingleton::getInstance()->collect(*this);
 
   bool is = (sf::Joystick::isConnected(0) && sf::Joystick::isButtonPressed(0, 0));
   bool isB = (sf::Joystick::isConnected(0) && sf::Joystick::isButtonPressed(0, 1));
@@ -38,7 +45,11 @@ void PlayableMob::update(float dt) {
     ptr->teleport(loc.x, loc.y);
     ptr->setVelocity(sf::Vector2f(-20, 0));
     if (!doesRectangleIntersectNonVoidBlocks(ptr->getBoundingBox())) {
+      std::cout << "valid\n";
       MobContainerSingleton::getInstance()->addMob(move(ptr));
+    }
+    else {
+      std::cout << "NOT\n";
     }
   }
   m_was = is;

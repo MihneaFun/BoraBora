@@ -64,6 +64,18 @@
     <Filter Include="Source Files\Mobs\MobContainerSingleton">
       <UniqueIdentifier>{80d08562-e2e3-496f-ad72-b6befe4f3970}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\FloatingItemsSingleton">
+      <UniqueIdentifier>{428e430c-2bfd-46d4-8833-a3a1be2cff75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Mobs\FloatingBlockMob">
+      <UniqueIdentifier>{ff449d5b-51b3-4a3f-9d7b-6211d0e8f112}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Quad">
+      <UniqueIdentifier>{5ce2f1ee-ec5b-4a40-b084-8e8bd8e7ee35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\FloatingPointFunctions">
+      <UniqueIdentifier>{4b799293-3b2b-4915-879f-68d6c8eef6a0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -104,6 +116,18 @@
     </ClCompile>
     <ClCompile Include="MobContainerSingleton.cpp">
       <Filter>Source Files\Mobs\MobContainerSingleton</Filter>
+    </ClCompile>
+    <ClCompile Include="FloatingItemsSingleton.cpp">
+      <Filter>Source Files\FloatingItemsSingleton</Filter>
+    </ClCompile>
+    <ClCompile Include="FloatingBlockMob.cpp">
+      <Filter>Source Files\Mobs\FloatingBlockMob</Filter>
+    </ClCompile>
+    <ClCompile Include="Quad.cpp">
+      <Filter>Source Files\Quad</Filter>
+    </ClCompile>
+    <ClCompile Include="FloatingPointFunctions.cpp">
+      <Filter>Source Files\FloatingPointFunctions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -148,6 +172,18 @@
     </ClInclude>
     <ClInclude Include="MobContainerSingleton.h">
       <Filter>Source Files\Mobs\MobContainerSingleton</Filter>
+    </ClInclude>
+    <ClInclude Include="FloatingItemsSingleton.h">
+      <Filter>Source Files\FloatingItemsSingleton</Filter>
+    </ClInclude>
+    <ClInclude Include="FloatingBlockMob.h">
+      <Filter>Source Files\Mobs\FloatingBlockMob</Filter>
+    </ClInclude>
+    <ClInclude Include="Quad.h">
+      <Filter>Source Files\Quad</Filter>
+    </ClInclude>
+    <ClInclude Include="FloatingPointFunctions.h">
+      <Filter>Source Files\FloatingPointFunctions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

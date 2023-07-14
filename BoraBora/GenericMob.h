@@ -4,6 +4,10 @@
 #include "Rectangle.h"
 
 class GenericMob : public sf::Drawable {
+private:
+  bool Xupdate(float dt_init);
+  bool Yupdate(float dt_init);
+
 protected:
   bool physicsUpdate(float dt); // returns true if the mob touches a world block and false if it doesn't 
 
@@ -24,4 +28,5 @@ public:
   virtual void justElapseDtY(float dt) = 0;
   virtual void setVelocity(sf::Vector2f velocity) = 0;
   virtual sf::Vector2f getCenter() const = 0;
+  virtual void killFromWorld() = 0;
 };
