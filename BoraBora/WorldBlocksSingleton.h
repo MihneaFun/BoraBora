@@ -17,6 +17,7 @@ private:
 
   static WorldBlocksSingleton* r_WorldBlocksSingleton;
 public:
+  std::set<std::pair<int, int>> all;
 
   static WorldBlocksSingleton* getInstance();
 

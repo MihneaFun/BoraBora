@@ -5,6 +5,8 @@
 #include "MissileMob.h"
 #include "MobContainerSingleton.h"
 #include <iostream>
+#include "FloatingBlockMob.h"
+#include "WorldBlocksSingleton.h"
 
 PlayableMob::PlayableMob() : m_mass(1.0f), m_was(0), m_wasB(0), m_wasX(0) {}
 
@@ -17,6 +19,19 @@ void PlayableMob::killFromWorld() {
 }
 
 void PlayableMob::update(float dt) {
+  MobContainerSingleton::getInstance()->addFramePlayableMob(this);
+
+  if (KeyboardAndMouseSingleton::getInstance()->isKeyJustPressed(sf::Keyboard::Q)) {
+    std::cout << "salutare\n";
+    std::unique_ptr<FloatingBlockMob> ptr = std::make_unique<FloatingBlockMob>();
+    int column = m_column;
+    int row = m_row - 3;
+    ptr->teleport(column + 0.5, row + 0.5);
+    ptr->setVelocity(sf::Vector2f(0, 0));
+    ptr->setBlockType(BlockType::DIRT);
+    MobContainerSingleton::getInstance()->addMob(std::move(ptr));
+  }
+
   if (KeyboardAndMouseSingleton::getInstance()->isKeyJustPressed((sf::Keyboard::Space))) {
     addForce(sf::Vector2f(0, 10));
   }

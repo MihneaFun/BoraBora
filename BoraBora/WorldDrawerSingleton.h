@@ -21,7 +21,6 @@ private:
   WorldDrawerSingleton(WorldDrawerSingleton&& other) = delete;
 
 public:
-
   
   Camera m_camera;
 

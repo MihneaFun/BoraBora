@@ -39,6 +39,10 @@ public:
   void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
   void killFromWorld() override;
 private:
+  bool is() override {
+    return 0;
+  }
+
 
   float m_column;
   float m_row;

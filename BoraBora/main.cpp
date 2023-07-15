@@ -23,6 +23,7 @@
 
 using namespace std;
 
+
 int main() {
   sf::RenderWindow window(sf::VideoMode(900, 900), "SFML works!");
 

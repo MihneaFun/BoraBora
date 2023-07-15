@@ -5,19 +5,25 @@
 #include "TextureType.h"
 #include <iostream>
 #include "WorldBlocksSingleton.h"
+#include "MobContainerSingleton.h"
 
-FloatingBlockMob::FloatingBlockMob() : m_mass(1.0f) {}
+FloatingBlockMob::FloatingBlockMob() : m_mass(1.0f), m_is_collected(false) {}
+
+void FloatingBlockMob::setCollected() {
+  m_is_collected = true;
+}
 
 void FloatingBlockMob::killFromWorld() {
 }
 
 bool FloatingBlockMob::requestDelete() {
   //return isExploding();
-  return false;
+  return m_is_collected;
 }
 
 void FloatingBlockMob::update(float dt) {
   bool touch = physicsUpdate(dt);
+  MobContainerSingleton::getInstance()->addFrameFloatingBlockMob(this);
 }
 
 void FloatingBlockMob::justElapseDtX(float dt) {

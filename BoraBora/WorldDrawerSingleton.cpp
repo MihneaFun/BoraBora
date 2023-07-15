@@ -36,6 +36,7 @@ void WorldDrawerSingleton::destroy() {
 }
 
 void WorldDrawerSingleton::drawWorldOnWindow(Rectangle windowRectangle, Rectangle worldRectangle) {
+  
   {
     m_camera.clear();
     {
@@ -52,6 +53,10 @@ void WorldDrawerSingleton::drawWorldOnWindow(Rectangle windowRectangle, Rectangl
       int y = 0;
       for (int row = startRow; row < endRow; ++row) {
         for (int column = startColumn; column < endColumn; ++column) {
+
+
+
+
 
           if (column < 0 || column >= WorldBlocksSingleton::getInstance()->getWidth() || row < 0 || row >= WorldBlocksSingleton::getInstance()->getHeight()) {
             y += 4;
@@ -84,6 +89,16 @@ void WorldDrawerSingleton::drawWorldOnWindow(Rectangle windowRectangle, Rectangl
           m_vertexArray[y + 2] = bottomRight;
           m_vertexArray[y + 3] = bottomLeft;
 
+          
+          if (WorldBlocksSingleton::getInstance()->all.count(std::make_pair(column, row))) {
+            for (int i = y; i < y + 4; i++) {
+              m_vertexArray[i].color = sf::Color::Blue;
+              if (type == TextureType::BLOCK_VOID) {
+                m_vertexArray[i].texCoords = sf::Vector2f(0, 0);
+              }
+            }
+          }
+
           y += 4;
         }
       }
@@ -104,4 +119,6 @@ void WorldDrawerSingleton::drawWorldOnWindow(Rectangle windowRectangle, Rectangl
     // windowRectangle = view port
     m_camera.drawCamera(windowRectangle, m_window);
   }
+  //std::cout << " : " << WorldBlocksSingleton::getInstance()->all.size() << "\n";
+  WorldBlocksSingleton::getInstance()->all.clear();
 }

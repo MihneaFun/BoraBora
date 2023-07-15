@@ -12,6 +12,7 @@ protected:
   bool physicsUpdate(float dt); // returns true if the mob touches a world block and false if it doesn't 
 
 public:
+  virtual bool is() = 0;
   GenericMob();
 
   virtual bool requestDelete() = 0;
