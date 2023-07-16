@@ -19,7 +19,7 @@ bool GenericMob::Xupdate(float dt_init) {
   if (getVelocity().x > 0) {
     float dt = dt_init;
     Rectangle rect = getBoundingBox();
-    int minRow = floor(rect.getRowMin());
+    int minRow = floor(rect.getRowMin() + Epsilon);
     int maxRow = ceil(rect.getRowMax()) - 1;
     int nextColumn = ceil(rect.getColumnMax());
     if (0 <= nextColumn && nextColumn < WorldBlocksSingleton::getInstance()->getWidth()) {
@@ -41,7 +41,7 @@ bool GenericMob::Xupdate(float dt_init) {
   if (getVelocity().x < 0) {
     float dt = dt_init;
     Rectangle rect = getBoundingBox();
-    int minRow = floor(rect.getRowMin());
+    int minRow = floor(rect.getRowMin() + Epsilon);
     int maxRow = ceil(rect.getRowMax()) - 1;
     int previousColumn = floor(rect.getColumnMin() + Epsilon) - 1;
     if (0 <= previousColumn && previousColumn < WorldBlocksSingleton::getInstance()->getWidth()) {
@@ -114,7 +114,6 @@ bool GenericMob::Yupdate(float dt_init) {
 }
 
 bool GenericMob::physicsUpdate(float dt) {
-  const float EPSILON = 0;
   addForce(sf::Vector2f(-getVelocity().x, 0) * 0.004f);
   addForce(sf::Vector2f(0, -0.1));
   applyForces();

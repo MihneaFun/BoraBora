@@ -5,6 +5,7 @@
 
 WorldBlocksSingleton* WorldBlocksSingleton::r_WorldBlocksSingleton = nullptr;
 
+#include <iostream>
 
 WorldBlocksSingleton::WorldBlocksSingleton(int width, int height)
   : m_width(width), m_height(height), m_blocks(height* width, BlockType::VOID) {
@@ -40,12 +41,7 @@ WorldBlocksSingleton::WorldBlocksSingleton(int width, int height)
       if (column <= 25 && row >= 2 && row <= 2) {
         continue;
       }
-      if ((row + column) % 2 == 0) {
-        setBlockType(column, row, BlockType::DIAMOND);
-      }
-      else {
-        setBlockType(column, row, BlockType::DIRT);
-      }
+      setBlockType(column, row, static_cast<BlockType>((column + row) % (int)(static_cast<int>(BlockType::COUNT) - 1)));
     }
   }
 }
