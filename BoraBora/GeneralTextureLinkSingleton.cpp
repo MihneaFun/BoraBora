@@ -42,8 +42,11 @@ void GeneralTextureLinkSingleton::loadAllLinks() {
   auto textureLinkSingleton = GeneralTextureLinkSingleton::getInstance();
 
   textureLinkSingleton->setLink(TextureType::BLOCK_DIAMOND, "textures/diamond_texture.png");
-  textureLinkSingleton->setLink(TextureType::BLOCK_DIRT, "textures/unnamed.png");
+  textureLinkSingleton->setLink(TextureType::BLOCK_DIRT, "textures/dirt_texture.png");
+  textureLinkSingleton->setLink(TextureType::BLOCK_SAND, "textures/sand_texture.png");
   textureLinkSingleton->setLink(TextureType::BLOCK_VOID, "textures/void_texture.png");
+  textureLinkSingleton->setLink(TextureType::BLOCK_COAL, "textures/coal_texture.png");
   textureLinkSingleton->setLink(TextureType::MOB_MISSILE, "textures/missile_texture.jpg");
+  textureLinkSingleton->setLink(TextureType::VILLAGER_SKIN, "textures/villager_skin.png");
   //textureLinkSingleton->setLink(TextureType::MOB_MISSILE, "textures/unnamed.png");
 }

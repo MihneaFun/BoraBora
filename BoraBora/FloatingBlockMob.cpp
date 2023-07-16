@@ -118,10 +118,10 @@ void FloatingBlockMob::draw(sf::RenderTarget& renderTarget, sf::RenderStates ren
   varray[3].position = sf::Vector2f(pos.getColumnMax(), pos.getRowMin());
 
   Rectangle rect = TextureAtlasSingleton::getInstance()->getTextureRectangle(m_blockType);
-  varray[0].texCoords = sf::Vector2f(rect.getRowMin(), rect.getColumnMin());
-  varray[1].texCoords = sf::Vector2f(rect.getRowMin(), rect.getColumnMax());
-  varray[2].texCoords = sf::Vector2f(rect.getRowMax(), rect.getColumnMax());
-  varray[3].texCoords = sf::Vector2f(rect.getRowMax(), rect.getColumnMin());
+  varray[0].texCoords = sf::Vector2f(rect.getColumnMin(), rect.getRowMin());
+  varray[1].texCoords = sf::Vector2f(rect.getColumnMin(), rect.getRowMax());
+  varray[2].texCoords = sf::Vector2f(rect.getColumnMax(), rect.getRowMax());
+  varray[3].texCoords = sf::Vector2f(rect.getColumnMax(), rect.getRowMin());
 
   for (int i = 0; i < 4; i++) {
     varray[i].color = sf::Color::Green;

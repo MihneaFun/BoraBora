@@ -113,10 +113,10 @@ int main() {
 
 
         Rectangle textureRectangle = TextureAtlasSingleton::getInstance()->getTextureRectangle(blockType);
-        topLeft.texCoords = { textureRectangle.getRowMin(), textureRectangle.getColumnMin() };
-        topRight.texCoords = { textureRectangle.getRowMax(), textureRectangle.getColumnMin() };
-        bottomRight.texCoords = { textureRectangle.getRowMax(), textureRectangle.getColumnMax() };
-        bottomLeft.texCoords = { textureRectangle.getRowMin(), textureRectangle.getColumnMax() };
+        topLeft.texCoords = { textureRectangle.getColumnMin(), textureRectangle.getRowMin() };
+        topRight.texCoords = { textureRectangle.getColumnMax(), textureRectangle.getRowMin() };
+        bottomRight.texCoords = { textureRectangle.getColumnMax(), textureRectangle.getRowMax() };
+        bottomLeft.texCoords = { textureRectangle.getColumnMin(), textureRectangle.getRowMax() };
 
         vertexArray[yp] = topLeft;
         vertexArray[yp + 1] = topRight;

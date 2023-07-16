@@ -7,7 +7,8 @@
 #include <iostream>
 #include "FloatingBlockMob.h"
 #include "WorldBlocksSingleton.h"
-
+#include "TextureAtlasSingleton.h"
+#include "TextureType.h"
 
 PlayableMob::PlayableMob() : m_mass(1.0f), m_was(0), m_wasB(0), m_wasX(0), m_counter(static_cast<int>(BlockType::COUNT), 0) {}
 
@@ -205,9 +206,22 @@ sf::Vector2f PlayableMob::getCenter() const {
 }
 
 void PlayableMob::draw(sf::RenderTarget& renderTarget, sf::RenderStates renderStates) const {
+  sf::VertexArray varray(sf::Quads, 4);
+
   Rectangle pos = getBoundingBox();
-  sf::RectangleShape shape;
-  shape.setSize(sf::Vector2f(pos.getColumnMax() - pos.getColumnMin(), pos.getRowMax() - pos.getRowMin()));
-  shape.setPosition(sf::Vector2f(pos.getColumnMin(), pos.getRowMin()));
-  renderTarget.draw(shape, renderStates);
+  
+  varray[0].position = sf::Vector2f(pos.getColumnMin(), pos.getRowMin());
+  varray[1].position = sf::Vector2f(pos.getColumnMin(), pos.getRowMax());
+  varray[2].position = sf::Vector2f(pos.getColumnMax(), pos.getRowMax());
+  varray[3].position = sf::Vector2f(pos.getColumnMax(), pos.getRowMin());
+
+  for (int i = 0; i < 4; i++) {
+    //varray[i].color = sf::Color::Green;
+  }
+
+  //shape.setSize(sf::Vector2f(pos.getColumnMax() - pos.getColumnMin(), pos.getRowMax() - pos.getRowMin()));
+  //shape.setPosition(sf::Vector2f(pos.getColumnMin(), pos.getRowMin())); 
+
+  //renderStates.texture = &TextureAtlasSingleton::getInstance()->getTextureBand();
+  renderTarget.draw(varray, renderStates);
 }

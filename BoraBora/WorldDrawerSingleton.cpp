@@ -67,10 +67,10 @@ void WorldDrawerSingleton::drawWorldOnWindow(Rectangle windowRectangle, Rectangl
           sf::Vertex bottomRight = sf::Vector2f(column + 1, row + 1);
 
           Rectangle textureRectangle = TextureAtlasSingleton::getInstance()->getTextureRectangle(blockType);
-          topLeft.texCoords = { textureRectangle.getRowMin(), textureRectangle.getColumnMin() };
-          topRight.texCoords = { textureRectangle.getRowMax(), textureRectangle.getColumnMin() };
-          bottomRight.texCoords = { textureRectangle.getRowMax(), textureRectangle.getColumnMax() };
-          bottomLeft.texCoords = { textureRectangle.getRowMin(), textureRectangle.getColumnMax() };
+          topLeft.texCoords = { textureRectangle.getColumnMin(), textureRectangle.getRowMin() };
+          topRight.texCoords = { textureRectangle.getColumnMax(), textureRectangle.getRowMin() };
+          bottomRight.texCoords = { textureRectangle.getColumnMax(), textureRectangle.getRowMax() };
+          bottomLeft.texCoords = { textureRectangle.getColumnMin(), textureRectangle.getRowMax() };
 
           m_vertexArray[y] = topLeft;
           m_vertexArray[y + 1] = topRight;

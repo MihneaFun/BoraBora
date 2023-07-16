@@ -1,3 +1,4 @@
 #pragma once
 
-enum class BlockType { DIRT, DIAMOND, VOID, COUNT };
+// leave the VOID one right before COUNT
+enum class BlockType { DIRT, DIAMOND, SAND, COAL, VOID, COUNT };

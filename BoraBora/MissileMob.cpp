@@ -146,10 +146,6 @@ void MissileMob::draw(sf::RenderTarget& renderTarget, sf::RenderStates renderSta
   varray[2].texCoords = sf::Vector2f(rect.getColumnMax(), rect.getRowMax());
   varray[3].texCoords = sf::Vector2f(rect.getColumnMax(), rect.getRowMin());
 
-  for (int i = 0; i < 4; i++) {
-    std::swap(varray[i].texCoords.x, varray[i].texCoords.y);
-  }
-
   if (m_igniting) {
     for (int i = 0; i < 4; i++) {
       float val = sin(m_remainingIgnitingTime * 20);
