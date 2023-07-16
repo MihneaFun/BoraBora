@@ -40,6 +40,25 @@ Rectangle TextureAtlasSingleton::getTextureRectangle(TextureType type) const {
 }
 
 
+Rectangle TextureAtlasSingleton::getTextureRectangle(BlockType blockType) const {
+  // shady
+  // optimize 
+  // optimise
+  // here 
+  // with a vector?
+  // a vector is better than many ifs?
+
+  TextureType type = TextureType::COUNT;
+
+  if (blockType == BlockType::DIAMOND) type = TextureType::BLOCK_DIAMOND;
+  if (blockType == BlockType::DIRT) type = TextureType::BLOCK_DIRT;
+  if (blockType == BlockType::VOID) type = TextureType::BLOCK_VOID;
+
+  assert(type != TextureType::COUNT);
+  return getTextureRectangle(type);
+}
+
+
 
 void TextureAtlasSingleton::createTextureBand() {
   // Calculate total width and maximum height of the band image

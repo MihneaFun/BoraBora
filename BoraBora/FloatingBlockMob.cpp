@@ -18,7 +18,7 @@ void FloatingBlockMob::killFromWorld() {
 
 bool FloatingBlockMob::requestDelete() {
   //return isExploding();
-  return m_is_collected;
+  return m_is_collected || getBoundingBox().getRowMax() < -100;
 }
 
 void FloatingBlockMob::update(float dt) {
@@ -117,16 +117,7 @@ void FloatingBlockMob::draw(sf::RenderTarget& renderTarget, sf::RenderStates ren
   varray[2].position = sf::Vector2f(pos.getColumnMax(), pos.getRowMax());
   varray[3].position = sf::Vector2f(pos.getColumnMax(), pos.getRowMin());
 
-  TextureType type = TextureType::COUNT;
-
-  if (m_blockType == BlockType::DIAMOND) type = TextureType::BLOCK_DIAMOND;
-  if (m_blockType == BlockType::DIRT) type = TextureType::BLOCK_DIRT;
-  if (m_blockType == BlockType::VOID) type = TextureType::BLOCK_VOID;
-
-  assert(type != TextureType::COUNT);
-
-
-  Rectangle rect = TextureAtlasSingleton::getInstance()->getTextureRectangle(type);
+  Rectangle rect = TextureAtlasSingleton::getInstance()->getTextureRectangle(m_blockType);
   varray[0].texCoords = sf::Vector2f(rect.getRowMin(), rect.getColumnMin());
   varray[1].texCoords = sf::Vector2f(rect.getRowMin(), rect.getColumnMax());
   varray[2].texCoords = sf::Vector2f(rect.getRowMax(), rect.getColumnMax());

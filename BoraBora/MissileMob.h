@@ -45,10 +45,6 @@ public:
 
 private:
 
-  bool is() override {
-    return 0;
-  }
-
   float m_remainingIgnitingTime;
   bool m_igniting;
   float m_column;

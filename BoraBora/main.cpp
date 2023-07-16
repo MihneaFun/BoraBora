@@ -23,7 +23,6 @@
 
 using namespace std;
 
-
 int main() {
   sf::RenderWindow window(sf::VideoMode(900, 900), "SFML works!");
 
@@ -91,7 +90,46 @@ int main() {
     }
     
     window.clear();
-    Rectangle windowRectangle(0.20, 0.8, 0.20, 0.8);
+    Rectangle windowRectangle(0.2, 0.8, 0.2, 0.8);
+
+    {
+      float L = 0.2, R = 0.8;
+      int numPrint = static_cast<int>(BlockType::COUNT) - 1;
+      float dim = (R - L) / numPrint;
+      sf::VertexArray vertexArray(sf::Quads, 4 * numPrint);
+      for (int i = 0; i < 4 * numPrint; i++) {
+        vertexArray[i] = sf::Vertex();
+      }
+      int yp = 0;
+      for (int i = 0; i < numPrint; i++) {
+        BlockType blockType = static_cast<BlockType>(i);
+
+        sf::Vertex topLeft = sf::Vector2f(0.05, L + dim * i);
+        sf::Vertex topRight = sf::Vector2f(0.15, L + dim * i);
+        sf::Vertex bottomRight = sf::Vector2f(0.15, L + dim * (i + 1));
+        sf::Vertex bottomLeft = sf::Vector2f(0.05, L + dim * (i + 1));
+
+        
+
+
+        Rectangle textureRectangle = TextureAtlasSingleton::getInstance()->getTextureRectangle(blockType);
+        topLeft.texCoords = { textureRectangle.getRowMin(), textureRectangle.getColumnMin() };
+        topRight.texCoords = { textureRectangle.getRowMax(), textureRectangle.getColumnMin() };
+        bottomRight.texCoords = { textureRectangle.getRowMax(), textureRectangle.getColumnMax() };
+        bottomLeft.texCoords = { textureRectangle.getRowMin(), textureRectangle.getColumnMax() };
+
+        vertexArray[yp] = topLeft;
+        vertexArray[yp + 1] = topRight;
+        vertexArray[yp + 2] = bottomRight;
+        vertexArray[yp + 3] = bottomLeft;
+
+        yp += 4;
+
+      }
+      //cout << " : " << window.getView().getCenter().x << " " << window.getView().getCenter().y << "\n";
+      window.draw(vertexArray, &TextureAtlasSingleton::getInstance()->getTextureBand());
+    }
+
     {
       Rectangle r = MobContainerSingleton::getInstance()->getMob(0)->getBoundingBox();
       float xm, ym;

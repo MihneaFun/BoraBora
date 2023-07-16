@@ -48,10 +48,6 @@ public:
 
 private:
 
-  bool is() override{
-    return 1;
-  }
-
   bool m_is_collected;
 
   BlockType m_blockType;

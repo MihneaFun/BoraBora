@@ -8,7 +8,12 @@
 #include "FloatingBlockMob.h"
 #include "WorldBlocksSingleton.h"
 
-PlayableMob::PlayableMob() : m_mass(1.0f), m_was(0), m_wasB(0), m_wasX(0) {}
+
+PlayableMob::PlayableMob() : m_mass(1.0f), m_was(0), m_wasB(0), m_wasX(0), m_counter(static_cast<int>(BlockType::COUNT), 0) {}
+
+void PlayableMob::collect(BlockType blockType) {
+  m_counter[static_cast<int>(blockType)]++;
+}
 
 bool PlayableMob::requestDelete() {
   return false;

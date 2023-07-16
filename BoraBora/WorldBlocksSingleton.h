@@ -3,7 +3,6 @@
 #include <vector>
 #include <cassert>
 #include "BlockType.h"
-#include <set>
 
 class WorldBlocksSingleton {
 private:
@@ -17,8 +16,6 @@ private:
 
   static WorldBlocksSingleton* r_WorldBlocksSingleton;
 public:
-  std::set<std::pair<int, int>> all;
-
   static WorldBlocksSingleton* getInstance();
 
   static void createInstance(int width, int height);

@@ -54,10 +54,6 @@ void WorldDrawerSingleton::drawWorldOnWindow(Rectangle windowRectangle, Rectangl
       for (int row = startRow; row < endRow; ++row) {
         for (int column = startColumn; column < endColumn; ++column) {
 
-
-
-
-
           if (column < 0 || column >= WorldBlocksSingleton::getInstance()->getWidth() || row < 0 || row >= WorldBlocksSingleton::getInstance()->getHeight()) {
             y += 4;
             continue;
@@ -70,15 +66,7 @@ void WorldDrawerSingleton::drawWorldOnWindow(Rectangle windowRectangle, Rectangl
           sf::Vertex bottomLeft = sf::Vector2f(column, row + 1);
           sf::Vertex bottomRight = sf::Vector2f(column + 1, row + 1);
 
-          TextureType type = TextureType::COUNT;
-
-          if (blockType == BlockType::DIAMOND) type = TextureType::BLOCK_DIAMOND;
-          if (blockType == BlockType::DIRT) type = TextureType::BLOCK_DIRT;
-          if (blockType == BlockType::VOID) type = TextureType::BLOCK_VOID;
-
-          assert(type != TextureType::COUNT);
-
-          Rectangle textureRectangle = TextureAtlasSingleton::getInstance()->getTextureRectangle(type);
+          Rectangle textureRectangle = TextureAtlasSingleton::getInstance()->getTextureRectangle(blockType);
           topLeft.texCoords = { textureRectangle.getRowMin(), textureRectangle.getColumnMin() };
           topRight.texCoords = { textureRectangle.getRowMax(), textureRectangle.getColumnMin() };
           bottomRight.texCoords = { textureRectangle.getRowMax(), textureRectangle.getColumnMax() };
@@ -88,16 +76,6 @@ void WorldDrawerSingleton::drawWorldOnWindow(Rectangle windowRectangle, Rectangl
           m_vertexArray[y + 1] = topRight;
           m_vertexArray[y + 2] = bottomRight;
           m_vertexArray[y + 3] = bottomLeft;
-
-          
-          if (WorldBlocksSingleton::getInstance()->all.count(std::make_pair(column, row))) {
-            for (int i = y; i < y + 4; i++) {
-              m_vertexArray[i].color = sf::Color::Blue;
-              if (type == TextureType::BLOCK_VOID) {
-                m_vertexArray[i].texCoords = sf::Vector2f(0, 0);
-              }
-            }
-          }
 
           y += 4;
         }
@@ -119,6 +97,4 @@ void WorldDrawerSingleton::drawWorldOnWindow(Rectangle windowRectangle, Rectangl
     // windowRectangle = view port
     m_camera.drawCamera(windowRectangle, m_window);
   }
-  //std::cout << " : " << WorldBlocksSingleton::getInstance()->all.size() << "\n";
-  WorldBlocksSingleton::getInstance()->all.clear();
 }

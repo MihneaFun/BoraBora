@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "Rectangle.h"
 #include "GeneralTextureManagerSingleton.h"
+#include "BlockType.h"
 
 class TextureAtlasSingleton {
 private:
@@ -21,5 +22,6 @@ public:
 
   const sf::Texture& getTextureBand() const;
   Rectangle getTextureRectangle(TextureType type) const;
+  Rectangle getTextureRectangle(BlockType blockType) const;
   void createTextureBand();
 };

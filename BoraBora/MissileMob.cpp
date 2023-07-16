@@ -32,7 +32,7 @@ void MissileMob::killFromWorld() {
 
 
 bool MissileMob::requestDelete() {
-  return isExploding();
+  return isExploding() || getBoundingBox().getRowMax() < -100;
 }
 
 void MissileMob::update(float dt) {

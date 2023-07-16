@@ -3,6 +3,8 @@
 #include "GenericMob.h"
 #include "Rectangle.h"
 #include <SFML/System/Vector2.hpp>
+#include <vector>
+#include "BlockType.h"
 
 class PlayableMob : public GenericMob {
 public:
@@ -10,6 +12,8 @@ public:
   bool m_was, m_wasB, m_wasX;
   virtual bool requestDelete() override;
   void update(float dt) override;
+
+  std::vector<int> m_counter;
 
   void addForce(const sf::Vector2f& force) override;
   void applyForces() override;
@@ -38,11 +42,9 @@ public:
 
   void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
   void killFromWorld() override;
-private:
-  bool is() override {
-    return 0;
-  }
+  void collect(BlockType blockType);
 
+private:
 
   float m_column;
   float m_row;

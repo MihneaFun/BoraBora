@@ -64,12 +64,7 @@ bool GenericMob::Xupdate(float dt_init) {
   return false;
 }
 
-#include "WorldDrawerSingleton.h"
-
 bool GenericMob::Yupdate(float dt_init) {
-  if (is()) {
-    //cout << " : " << getVelocity().y << "\n";
-  }
   if (getVelocity().y > 0) {
     float dt = dt_init;
     Rectangle rect = getBoundingBox();
@@ -82,7 +77,6 @@ bool GenericMob::Yupdate(float dt_init) {
       for (int column = minColumn; column <= maxColumn; column++) {
         int row = nextRow;
         assert(!(column < 0 || column >= WorldBlocksSingleton::getInstance()->getWidth() || row < 0 || row >= WorldBlocksSingleton::getInstance()->getHeight()));
-
         if (WorldBlocksSingleton::getInstance()->getBlockType(column, row) == BlockType::VOID) {
           continue;
         }
@@ -104,16 +98,10 @@ bool GenericMob::Yupdate(float dt_init) {
       maxColumn = min(maxColumn, WorldBlocksSingleton::getInstance()->getWidth() - 1);
       for (int column = minColumn; column <= maxColumn; column++) {
         int row = previousRow;
-        
         assert(!(column < 0 || column >= WorldBlocksSingleton::getInstance()->getWidth() || row < 0 || row >= WorldBlocksSingleton::getInstance()->getHeight()));
-        if (is()) {
-          //cout << "lmao\n";
-          WorldBlocksSingleton::getInstance()->all.insert(make_pair(column, row));
-        }
         if (WorldBlocksSingleton::getInstance()->getBlockType(column, row) == BlockType::VOID) {
           continue;
         }
-        //cout << "aici\n";
         dt = min(dt, (rect.getRowMin() - (previousRow + 1)) / (-getVelocity().y));
       }
     }
