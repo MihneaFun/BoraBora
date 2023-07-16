@@ -17,7 +17,7 @@ bool doesRectangleIntersectNonVoidBlocks(const Rectangle& rect) {
         continue;
       }
 
-      Rectangle thisRectangle(row, row + 1, column, column + 1);
+      Rectangle thisRectangle(column, column + 1, row, row + 1);
 
       if (doRectanglesIntersect(thisRectangle, rect)) {
         return true;
@@ -27,7 +27,7 @@ bool doesRectangleIntersectNonVoidBlocks(const Rectangle& rect) {
   return false;
 }
 
-Rectangle::Rectangle(float rowmin, float rowmax, float colmin, float colmax)
+Rectangle::Rectangle(float colmin, float colmax, float rowmin, float rowmax)
   : m_rowmin(rowmin), m_rowmax(rowmax), m_colmin(colmin), m_colmax(colmax) {}
 
 
@@ -91,5 +91,5 @@ Rectangle getNewCoords(Rectangle oldView, Rectangle newView, Rectangle rect) {
   float newRowMax = std::max(std::max(topLeft.y, topRight.y), std::max(bottomLeft.y, bottomRight.y));
 
   // Return a new Rectangle using these new bounds
-  return Rectangle(newRowMin, newRowMax, newColumnMin, newColumnMax);
+  return Rectangle(newColumnMin, newColumnMax, newRowMin, newRowMax);
 }

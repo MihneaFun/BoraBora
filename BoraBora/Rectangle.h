@@ -3,7 +3,7 @@
 
 class Rectangle {
 public:
-  Rectangle(float rowmin, float rowmax, float columnmin, float columnmax);
+  Rectangle(float columnmin, float columnmax, float rowmin, float rowmax);
   float getRowMin() const;
   float getRowMax() const;
   float getColumnMin() const;

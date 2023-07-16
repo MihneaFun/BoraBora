@@ -178,7 +178,7 @@ Rectangle PlayableMob::getBoundingBoxGivenPosition(float row, float column) cons
   float colMin = column - 0.4f;
   float colMax = column + 0.4f;
 
-  return Rectangle(rowMin, rowMax, colMin, colMax);
+  return Rectangle(colMin, colMax, rowMin, rowMax);
 }
 
 Rectangle PlayableMob::getBoundingBox() const {
@@ -215,6 +215,13 @@ void PlayableMob::draw(sf::RenderTarget& renderTarget, sf::RenderStates renderSt
   varray[2].position = sf::Vector2f(pos.getColumnMax(), pos.getRowMax());
   varray[3].position = sf::Vector2f(pos.getColumnMax(), pos.getRowMin());
 
+  Rectangle textureRectangle = TextureAtlasSingleton::getInstance()->getTextureRectangle(TextureType::VILLAGER_SKIN);
+
+  varray[0].texCoords = sf::Vector2f(textureRectangle.getColumnMin(), textureRectangle.getRowMin());
+  varray[1].texCoords = sf::Vector2f(textureRectangle.getColumnMax(), textureRectangle.getRowMin());
+  varray[2].texCoords = sf::Vector2f(textureRectangle.getColumnMax(), textureRectangle.getRowMax());
+  varray[3].texCoords = sf::Vector2f(textureRectangle.getColumnMin(), textureRectangle.getRowMax());
+
   for (int i = 0; i < 4; i++) {
     //varray[i].color = sf::Color::Green;
   }
@@ -222,6 +229,6 @@ void PlayableMob::draw(sf::RenderTarget& renderTarget, sf::RenderStates renderSt
   //shape.setSize(sf::Vector2f(pos.getColumnMax() - pos.getColumnMin(), pos.getRowMax() - pos.getRowMin()));
   //shape.setPosition(sf::Vector2f(pos.getColumnMin(), pos.getRowMin())); 
 
-  //renderStates.texture = &TextureAtlasSingleton::getInstance()->getTextureBand();
+  renderStates.texture = &TextureAtlasSingleton::getInstance()->getTextureBand();
   renderTarget.draw(varray, renderStates);
 }

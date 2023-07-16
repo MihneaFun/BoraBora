@@ -84,7 +84,7 @@ int main() {
     frames++;
 
     if (timeSinceLastUpdate > sf::seconds(1.0f)) {
-      std::cout << "FPS: " << frames << ", " << MobContainerSingleton::getInstance()->getMobCount() << "\n";
+      std::cout << "FPS: " << frames << ", " << MobContainerSingleton::getInstance()->getMobCount() << " " << x << " " << y << "\n";
       frames = 0;
       timeSinceLastUpdate -= sf::seconds(1.0f);
     }
@@ -108,9 +108,6 @@ int main() {
         sf::Vertex topRight = sf::Vector2f(0.15, L + dim * i);
         sf::Vertex bottomRight = sf::Vector2f(0.15, L + dim * (i + 1));
         sf::Vertex bottomLeft = sf::Vector2f(0.05, L + dim * (i + 1));
-
-        
-
 
         Rectangle textureRectangle = TextureAtlasSingleton::getInstance()->getTextureRectangle(blockType);
         topLeft.texCoords = { textureRectangle.getColumnMin(), textureRectangle.getRowMin() };
@@ -138,7 +135,7 @@ int main() {
       x = xm - 15;
       y = ym - 15;
     }
-    Rectangle worldRectangle(y, y + 30, x + 0, x + 30);
+    Rectangle worldRectangle(x, x + 30, y + 0, y + 30);
 
     WorldDrawerSingleton::getInstance(window)->drawWorldOnWindow(windowRectangle, worldRectangle);
 

@@ -82,7 +82,7 @@ Rectangle FloatingBlockMob::getBoundingBoxGivenPosition(float row, float column)
   float colMin = column - 0.4f;
   float colMax = column + 0.4f;
 
-  return Rectangle(rowMin, rowMax, colMin, colMax);
+  return Rectangle(colMin, colMax, rowMin, rowMax);
 }
 
 Rectangle FloatingBlockMob::getBoundingBox() const {

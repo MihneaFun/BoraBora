@@ -96,7 +96,7 @@ Rectangle MissileMob::getBoundingBoxGivenPosition(float row, float column) const
   float colMin = column - 0.7f;
   float colMax = column + 0.7f;
 
-  return Rectangle(rowMin, rowMax, colMin, colMax);
+  return Rectangle(colMin, colMax, rowMin, rowMax);
 }
 
 Rectangle MissileMob::getBoundingBox() const {

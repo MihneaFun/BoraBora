@@ -54,6 +54,7 @@ Rectangle TextureAtlasSingleton::getTextureRectangle(BlockType blockType) const 
   if (blockType == BlockType::DIRT) type = TextureType::BLOCK_DIRT;
   if (blockType == BlockType::SAND) type = TextureType::BLOCK_SAND;
   if (blockType == BlockType::COAL) type = TextureType::BLOCK_COAL;
+  if (blockType == BlockType::GRANITE) type = TextureType::BLOCK_GRANITE;
   if (blockType == BlockType::VOID) type = TextureType::BLOCK_VOID;
 
   assert(type != TextureType::COUNT);
@@ -92,7 +93,7 @@ void TextureAtlasSingleton::createTextureBand() {
     int textureWidth = texture.getSize().x;
     int textureHeight = texture.getSize().y;
 
-    m_textureRectangles.push_back(Rectangle(0, textureHeight, offset, offset + textureWidth));
+    m_textureRectangles.push_back(Rectangle(offset, offset + textureWidth, 0, textureHeight));
 
     offset += textureWidth;
   }
