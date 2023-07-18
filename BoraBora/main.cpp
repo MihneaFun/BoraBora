@@ -24,8 +24,47 @@
 
 using namespace std;
 
+void drawScaledTextOnWindow(sf::RenderWindow& window, std::string txt, sf::Font& font) {
+  sf::Text text;
+
+  // Set the string to display
+  text.setString(txt);
+
+  // Set the used font
+  text.setFont(font);
+
+  // Set the color of the text
+  text.setFillColor(sf::Color::White);
+
+  // Fetch the view size
+  sf::Vector2f viewSize = window.getView().getSize();
+
+  // Fetch the current text bounds
+  sf::FloatRect textBounds = text.getLocalBounds();
+
+  // Compute the scaling factors
+  float scaleX = viewSize.x / textBounds.width;
+  float scaleY = viewSize.y / textBounds.height;
+
+  // Scale the text to fit the window
+  text.setScale(scaleX, scaleY);
+
+  // Center the text in the view
+  text.setPosition((viewSize.x - textBounds.width * scaleX) / 2.f, (viewSize.y - textBounds.height * scaleY) / 2.f);
+
+  // Draw the text
+  window.draw(text);
+}
+
+
 int main() {
   sf::RenderWindow window(sf::VideoMode(900, 900), "SFML works!");
+
+  sf::Font font;
+  if (!font.loadFromFile("font.ttf")) {
+    cout << "failed loading font\n";
+    exit(0);
+  }
 
   // Texture stuff:
 
@@ -175,7 +214,7 @@ int main() {
 
     MobContainerSingleton::getInstance()->update(fixedDT);
 
-
+    //drawScaledTextOnWindow(window, "salut boss", font);
 
     window.display();
   }
