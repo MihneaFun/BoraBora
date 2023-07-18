@@ -1,5 +1,7 @@
 #include <SFML/Graphics.hpp>
 
+#include "Text.h"
+
 #include "TextureType.h"
 #include "BlockType.h"
 
@@ -23,39 +25,6 @@
 #include <vector>
 
 using namespace std;
-
-void drawScaledTextOnWindow(sf::RenderWindow& window, std::string txt, sf::Font& font) {
-  sf::Text text;
-
-  // Set the string to display
-  text.setString(txt);
-
-  // Set the used font
-  text.setFont(font);
-
-  // Set the color of the text
-  text.setFillColor(sf::Color::White);
-
-  // Fetch the view size
-  sf::Vector2f viewSize = window.getView().getSize();
-
-  // Fetch the current text bounds
-  sf::FloatRect textBounds = text.getLocalBounds();
-
-  // Compute the scaling factors
-  float scaleX = viewSize.x / textBounds.width;
-  float scaleY = viewSize.y / textBounds.height;
-
-  // Scale the text to fit the window
-  text.setScale(scaleX, scaleY);
-
-  // Center the text in the view
-  text.setPosition((viewSize.x - textBounds.width * scaleX) / 2.f, (viewSize.y - textBounds.height * scaleY) / 2.f);
-
-  // Draw the text
-  window.draw(text);
-}
-
 
 int main() {
   sf::RenderWindow window(sf::VideoMode(900, 900), "SFML works!");
@@ -106,7 +75,11 @@ int main() {
   float currentDT = 0;
   bool was = 0, wasB = 0, wasX = 0;
 
-  BlockMatrix mtr(5, 10);
+  BlockMatrix mtr(10, 10);
+
+  Rectangle windowRectangle(0.2, 0.8, 0.2, 0.8);
+
+  int tog = 0;
 
   while (window.isOpen()) {
     currentDT += frameClock.restart().asSeconds();
@@ -126,15 +99,58 @@ int main() {
     timeSinceLastUpdate += clock.restart();
     frames++;
 
+    if (KeyboardAndMouseSingleton::getInstance()->isKeyJustPressed(sf::Keyboard::Key::M)) {
+      tog ^= 1;
+    }
+
     if (timeSinceLastUpdate > sf::seconds(1.0f)) {
       std::cout << "FPS: " << frames << ", " << MobContainerSingleton::getInstance()->getMobCount() << " " << x << " " << y << "\n";
       frames = 0;
       timeSinceLastUpdate -= sf::seconds(1.0f);
     }
-    
+
     window.clear();
-    Rectangle windowRectangle(0.2, 0.5, 0.2, 0.8);
-    //Rectangle windowRectangle(0.2, 0.3, 0.2, 0.3);
+    //Rectangle windowRectangle(0.2, 0.5, 0.2, 0.8);
+
+    float speed = 0.5;
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
+      windowRectangle = Rectangle(windowRectangle.getColumnMin() + fixedDT * speed, windowRectangle.getColumnMax() + fixedDT * speed, windowRectangle.getRowMin(), windowRectangle.getRowMax());
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
+      windowRectangle = Rectangle(windowRectangle.getColumnMin() - fixedDT * speed, windowRectangle.getColumnMax() - fixedDT * speed, windowRectangle.getRowMin(), windowRectangle.getRowMax());
+    }
+
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
+      windowRectangle = Rectangle(windowRectangle.getColumnMin(), windowRectangle.getColumnMax(), windowRectangle.getRowMin() + fixedDT * speed, windowRectangle.getRowMax() + fixedDT * speed);
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
+      windowRectangle = Rectangle(windowRectangle.getColumnMin(), windowRectangle.getColumnMax(), windowRectangle.getRowMin() - fixedDT * speed, windowRectangle.getRowMax() - fixedDT * speed);
+    }
+
+
+    float speed2 = 0.2;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::T)) {
+      float inc = windowRectangle.getColumnMax() - windowRectangle.getColumnMin();
+      inc *= speed2 * fixedDT;
+      windowRectangle = Rectangle(windowRectangle.getColumnMin() + inc, windowRectangle.getColumnMax() - inc, windowRectangle.getRowMin(), windowRectangle.getRowMax());
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::G)) {
+      float inc = windowRectangle.getColumnMax() - windowRectangle.getColumnMin();
+      inc *= speed2 * fixedDT;
+      windowRectangle = Rectangle(windowRectangle.getColumnMin() - inc, windowRectangle.getColumnMax() + inc, windowRectangle.getRowMin(), windowRectangle.getRowMax());
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Y)) {
+      float inc = windowRectangle.getRowMax() - windowRectangle.getRowMin();
+      inc *= speed2 * fixedDT;
+      windowRectangle = Rectangle(windowRectangle.getColumnMin(), windowRectangle.getColumnMax() - inc, windowRectangle.getRowMin() + inc, windowRectangle.getRowMax() - inc);
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::H)) {
+      float inc = windowRectangle.getRowMax() - windowRectangle.getRowMin();
+      inc *= speed2 * fixedDT;
+      windowRectangle = Rectangle(windowRectangle.getColumnMin(), windowRectangle.getColumnMax(), windowRectangle.getRowMin() - inc, windowRectangle.getRowMax() + inc);
+    }
 
     if (0) {
       float L = 0.2, R = 0.8;
@@ -180,7 +196,7 @@ int main() {
     }
     Rectangle worldRectangle(x, x + 30, y + 0, y + 30);
 
-    if (0) {
+    if (!tog) {
       WorldDrawerSingleton::getInstance(window)->drawWorldOnWindow(windowRectangle, worldRectangle);
     }
 
@@ -198,7 +214,7 @@ int main() {
 
     mtr.setRectangle(windowRectangle);
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 10; i++) {
       for (int j = 0; j < 10; j++) {
         if ((i + j) % 2 == 0) {
           mtr.setBlockType(i, j, BlockType::GREEN_WOOL);
@@ -210,12 +226,17 @@ int main() {
     }
 
     mtr.update(fixedDT);
-    window.draw(mtr);
-
+    if (tog) {
+      window.draw(mtr);
+    }
+    //cout << " : " << window.getView().getSize().x << " " << window.getView().getSize().y << "\n";
     MobContainerSingleton::getInstance()->update(fixedDT);
 
-    //drawScaledTextOnWindow(window, "salut boss", font);
 
+    sf::Text text;
+
+    //prepText(text, "70", font, windowRectangle);
+    //window.draw(text);
     window.display();
   }
 

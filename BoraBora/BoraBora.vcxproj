@@ -159,6 +159,7 @@
     <ClCompile Include="PlayableMob.cpp" />
     <ClCompile Include="Quad.cpp" />
     <ClCompile Include="Rectangle.cpp" />
+    <ClCompile Include="Text.cpp" />
     <ClCompile Include="TextureAtlasSingleton.cpp" />
     <ClCompile Include="WorldBlocksSingleton.cpp" />
     <ClCompile Include="WorldDrawerSingleton.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="PlayableMob.h" />
     <ClInclude Include="Quad.h" />
     <ClInclude Include="Rectangle.h" />
+    <ClInclude Include="Text.h" />
     <ClInclude Include="TextureAtlasSingleton.h" />
     <ClInclude Include="TextureType.h" />
     <ClInclude Include="WorldBlocksSingleton.h" />

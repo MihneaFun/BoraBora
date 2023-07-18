@@ -1,10 +1,8 @@
 #pragma once
 
 #include "BlockType.h"
-#include "TextureAtlasSingleton.h"
 #include "Rectangle.h"
 #include <SFML/Graphics.hpp>
-#include "Camera.h"
 #include <vector>
 
 class BlockMatrix : public sf::Drawable {

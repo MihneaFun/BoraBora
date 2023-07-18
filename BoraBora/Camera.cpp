@@ -17,7 +17,7 @@ void Camera::create(int dimx, int dimy) {
 }
 
 void Camera::clear() {
-  m_texture.clear(sf::Color::Magenta);
+  m_texture.clear(sf::Color::Transparent);
 }
 
 const sf::Vector2f Camera::getCenter() {
@@ -60,4 +60,5 @@ void Camera::drawCamera(Rectangle rectangle, sf::RenderTarget& renderTarget, sf:
   renderState.texture = &m_texture.getTexture();
 
   renderTarget.draw(varray, renderState);
+  clear();
 }

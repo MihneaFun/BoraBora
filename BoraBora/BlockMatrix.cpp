@@ -1,4 +1,5 @@
 #include "BlockMatrix.h"
+#include "TextureAtlasSingleton.h"
 #include <cassert>
 
 BlockMatrix::BlockMatrix(int columns, int rows) : m_columns(columns), m_rows(rows), m_rectangle(0, 0, 0, 0), m_vertexArray(sf::Quads), m_i(0), m_j(0), m_inner_clock(10000) {
