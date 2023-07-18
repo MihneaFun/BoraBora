@@ -146,6 +146,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BlockMatrix.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="FloatingBlockMob.cpp" />
     <ClCompile Include="GeneralTextureLinkSingleton.cpp" />
@@ -163,6 +164,7 @@
     <ClCompile Include="WorldDrawerSingleton.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BlockMatrix.h" />
     <ClInclude Include="BlockType.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="FloatingBlockMob.h" />

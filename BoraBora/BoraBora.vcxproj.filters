@@ -70,6 +70,9 @@
     <Filter Include="Source Files\Mobs\FloatingBlockMob">
       <UniqueIdentifier>{c3bda303-cf91-4b71-812f-a63b02b21bf6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\BlockMatrix">
+      <UniqueIdentifier>{c5c6f180-9460-4b78-8e66-823186101c4a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -116,6 +119,9 @@
     </ClCompile>
     <ClCompile Include="FloatingBlockMob.cpp">
       <Filter>Source Files\Mobs\FloatingBlockMob</Filter>
+    </ClCompile>
+    <ClCompile Include="BlockMatrix.cpp">
+      <Filter>Source Files\BlockMatrix</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -166,6 +172,9 @@
     </ClInclude>
     <ClInclude Include="FloatingBlockMob.h">
       <Filter>Source Files\Mobs\FloatingBlockMob</Filter>
+    </ClInclude>
+    <ClInclude Include="BlockMatrix.h">
+      <Filter>Source Files\BlockMatrix</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

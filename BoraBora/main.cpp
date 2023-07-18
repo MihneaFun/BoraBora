@@ -12,6 +12,7 @@
 #include "GeneralTextureManagerSingleton.h"
 #include "WorldBlocksSingleton.h"
 #include "WorldDrawerSingleton.h"
+#include "BlockMatrix.h"
 
 #include "Rectangle.h"
 #include "Camera.h"
@@ -65,6 +66,9 @@ int main() {
   const float fixedDT = 0.005;
   float currentDT = 0;
   bool was = 0, wasB = 0, wasX = 0;
+
+  BlockMatrix mtr(5, 10);
+
   while (window.isOpen()) {
     currentDT += frameClock.restart().asSeconds();
     if (currentDT < fixedDT) {
@@ -90,9 +94,10 @@ int main() {
     }
     
     window.clear();
-    Rectangle windowRectangle(0.2, 0.8, 0.2, 0.8);
+    Rectangle windowRectangle(0.2, 0.5, 0.2, 0.8);
+    //Rectangle windowRectangle(0.2, 0.3, 0.2, 0.3);
 
-    {
+    if (0) {
       float L = 0.2, R = 0.8;
       int numPrint = static_cast<int>(BlockType::COUNT) - 1;
       float dim = (R - L) / numPrint;
@@ -123,7 +128,6 @@ int main() {
         yp += 4;
 
       }
-      //cout << " : " << window.getView().getCenter().x << " " << window.getView().getCenter().y << "\n";
       window.draw(vertexArray, &TextureAtlasSingleton::getInstance()->getTextureBand());
     }
 
@@ -137,7 +141,9 @@ int main() {
     }
     Rectangle worldRectangle(x, x + 30, y + 0, y + 30);
 
-    WorldDrawerSingleton::getInstance(window)->drawWorldOnWindow(windowRectangle, worldRectangle);
+    if (0) {
+      WorldDrawerSingleton::getInstance(window)->drawWorldOnWindow(windowRectangle, worldRectangle);
+    }
 
     if (0) {
       sf::Vector2f worldPos = window.mapPixelToCoords(sf::Mouse::getPosition(window), window.getView());
@@ -150,6 +156,22 @@ int main() {
 
       window.draw(shape);
     }
+
+    mtr.setRectangle(windowRectangle);
+
+    for (int i = 0; i < 5; i++) {
+      for (int j = 0; j < 10; j++) {
+        if ((i + j) % 2 == 0) {
+          mtr.setBlockType(i, j, BlockType::GREEN_WOOL);
+        }
+        else {
+          mtr.setBlockType(i, j, BlockType::DIRT);
+        }
+      }
+    }
+
+    mtr.update(fixedDT);
+    window.draw(mtr);
 
     MobContainerSingleton::getInstance()->update(fixedDT);
 

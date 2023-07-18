@@ -55,6 +55,10 @@ Rectangle TextureAtlasSingleton::getTextureRectangle(BlockType blockType) const 
   if (blockType == BlockType::SAND) type = TextureType::BLOCK_SAND;
   if (blockType == BlockType::COAL) type = TextureType::BLOCK_COAL;
   if (blockType == BlockType::GRANITE) type = TextureType::BLOCK_GRANITE;
+  if (blockType == BlockType::BLUE_WOOL) type = TextureType::BLOCK_BLUE_WOOL;
+  if (blockType == BlockType::PINK_WOOL) type = TextureType::BLOCK_PINK_WOOL;
+  if (blockType == BlockType::RED_WOOL) type = TextureType::BLOCK_RED_WOOL;
+  if (blockType == BlockType::GREEN_WOOL) type = TextureType::BLOCK_GREEN_WOOL;
   if (blockType == BlockType::VOID) type = TextureType::BLOCK_VOID;
 
   assert(type != TextureType::COUNT);

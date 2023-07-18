@@ -103,6 +103,7 @@ void PlayableMob::update(float dt) {
   }
 
   if (sf::Joystick::isConnected(0)) {
+  
     float position = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
     if (position > 50) {
       force.x += 1;
