@@ -242,4 +242,4 @@ int main() {
 // rider -> jetBrains
 // implement dda
 // ctrl shift F shady
-// 
+// check out
