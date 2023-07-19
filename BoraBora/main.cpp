@@ -74,6 +74,8 @@ int main() {
 
   int tog = 0;
 
+  bool was5 = 0;
+
   while (window.isOpen()) {
     currentDT += frameClock.restart().asSeconds();
     if (currentDT < fixedDT) {
@@ -98,12 +100,12 @@ int main() {
 
     
     //cout << " ---->: " << (int) MobContainerSingleton::getInstance()->m_frame_block_matrices.size() << "\n";
-
-    if (KeyboardAndMouseSingleton::getInstance()->isKeyJustPressed(sf::Keyboard::Key::M)) {
-      tog ^= 1;
-    }
     
-  
+    bool is5 = sf::Joystick::isButtonPressed(0, 5);
+
+    tog ^= (is5 && !was5);
+    was5 = is5;
+
     window.clear();
     //Rectangle windowRectangle(0.2, 0.5, 0.2, 0.8);
 
