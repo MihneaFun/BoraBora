@@ -3,6 +3,7 @@
 #include "GenericMob.h"
 #include "PlayableMob.h"
 #include "FloatingBlockMob.h"
+#include "BlockMatrix.h"
 #include <memory>
 #include <vector>
 #include <cassert>
@@ -17,10 +18,13 @@ private:
   std::vector<std::unique_ptr<GenericMob>> m_mobs;
   std::vector<PlayableMob*> m_frame_playable_mobs;
   std::vector<FloatingBlockMob*> m_frame_floating_block_mobs;
+
 public:
+  std::vector<BlockMatrix*> m_frame_block_matrices;
 
   void addFramePlayableMob(PlayableMob* mob);
   void addFrameFloatingBlockMob(FloatingBlockMob* mob);
+  void addFrameBlockMatrix(BlockMatrix* matrix);
 
   const std::unique_ptr<GenericMob>& getMob(int index) const {
     assert(0 <= index && index < (int)m_mobs.size());

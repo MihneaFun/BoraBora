@@ -1,9 +1,33 @@
 #include "BlockMatrix.h"
 #include "TextureAtlasSingleton.h"
 #include <cassert>
+#include "MobContainerSingleton.h"
+#include <iostream>
+#include "TextSingleton.h"
 
-BlockMatrix::BlockMatrix(int columns, int rows) : m_columns(columns), m_rows(rows), m_rectangle(0, 0, 0, 0), m_vertexArray(sf::Quads), m_i(0), m_j(0), m_inner_clock(10000) {
-  m_blocks.resize(m_rows, std::vector<BlockType>(m_columns));
+int BlockMatrix::getColumnsSize() const {
+  return m_columns;
+}
+
+int BlockMatrix::getRowsSize() const {
+  return m_rows;
+}
+
+BlockMatrix::BlockMatrix(int columns, int rows) : 
+  m_columns(columns),
+  m_rows(rows),
+  m_rectangle(0, 0, 0, 0), 
+  m_vertexArray(sf::Quads), 
+  m_i(0), 
+  m_j(0), 
+  m_inner_clock(10000), 
+  m_blocks(m_rows, std::vector<BlockType>(m_columns, BlockType::VOID)),
+  m_numbers(m_rows, std::vector<int>(m_columns, -1)) {
+  if (!m_font.loadFromFile("font.ttf")) {
+    std::cout << "failed loading font\n";
+    exit(0);
+  }
+
   assert(columns >= 1);
   assert(rows >= 1);
 }
@@ -28,6 +52,20 @@ BlockType BlockMatrix::getBlockType(int column, int row) const {
   assert(row >= 0 && row < m_rows);
 
   return m_blocks[row][column];
+}
+
+void BlockMatrix::setNumber(int column, int row, int number) {
+  assert(column >= 0 && column < m_columns);
+  assert(row >= 0 && row < m_rows);
+
+  m_numbers[row][column] = number;
+}
+
+int BlockMatrix::getNumber(int column, int row, int number) const {
+  assert(column >= 0 && column < m_columns);
+  assert(row >= 0 && row < m_rows);
+
+  return m_numbers[row][column];
 }
 
 void BlockMatrix::update(float dt) {
@@ -63,6 +101,8 @@ void BlockMatrix::update(float dt) {
       m_vertexArray[y + 3] = bottomLeft;
 
       y += 4;
+      
+      
     }
   }
   if (sf::Joystick::isConnected(0) && m_inner_clock >= 0.2) {
@@ -111,6 +151,17 @@ void BlockMatrix::draw(sf::RenderTarget& renderTarget, sf::RenderStates renderSt
   frame[1] = topRight;
   frame[2] = bottomRight;
   frame[3] = bottomLeft;
+
+  for (int row = 0; row < m_rows; row++) {
+    for (int column = 0; column < m_columns; column++) {
+      Rectangle location = getRectangle(column, row);
+      TextSingleton::getInstance()->setRectangle(getRectangle(column, row));
+      sf::Text text = TextSingleton::getInstance()->getText(TextSingleton::getInstance()->numToString(m_numbers[row][column]));
+      renderTarget.draw(text);
+      //sf::Text text = getText("mu", font, location);
+    }
+  }
+
   renderTarget.draw(frame, renderStates);
 }
 

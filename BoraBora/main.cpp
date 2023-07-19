@@ -1,6 +1,6 @@
 #include <SFML/Graphics.hpp>
 
-#include "Text.h"
+#include "TextSingleton.h"
 
 #include "TextureType.h"
 #include "BlockType.h"
@@ -29,12 +29,6 @@ using namespace std;
 int main() {
   sf::RenderWindow window(sf::VideoMode(900, 900), "SFML works!");
 
-  sf::Font font;
-  if (!font.loadFromFile("font.ttf")) {
-    cout << "failed loading font\n";
-    exit(0);
-  }
-
   // Texture stuff:
 
   KeyboardAndMouseSingleton::createInstance();
@@ -42,6 +36,7 @@ int main() {
   GeneralTextureManagerSingleton::createInstance();
   TextureAtlasSingleton::createInstance();
   WorldDrawerSingleton::createInstance(window);
+  TextSingleton::createInstance();
 
   // World stuff:
   WorldBlocksSingleton::createInstance(10000, 200);
@@ -75,8 +70,6 @@ int main() {
   float currentDT = 0;
   bool was = 0, wasB = 0, wasX = 0;
 
-  BlockMatrix mtr(10, 10);
-
   Rectangle windowRectangle(0.2, 0.8, 0.2, 0.8);
 
   int tog = 0;
@@ -95,20 +88,22 @@ int main() {
         window.close();
       }
     }
-
-    timeSinceLastUpdate += clock.restart();
-    frames++;
-
-    if (KeyboardAndMouseSingleton::getInstance()->isKeyJustPressed(sf::Keyboard::Key::M)) {
-      tog ^= 1;
-    }
-
     if (timeSinceLastUpdate > sf::seconds(1.0f)) {
       std::cout << "FPS: " << frames << ", " << MobContainerSingleton::getInstance()->getMobCount() << " " << x << " " << y << "\n";
       frames = 0;
       timeSinceLastUpdate -= sf::seconds(1.0f);
     }
+    timeSinceLastUpdate += clock.restart();
+    frames++;
 
+    
+    //cout << " ---->: " << (int) MobContainerSingleton::getInstance()->m_frame_block_matrices.size() << "\n";
+
+    if (KeyboardAndMouseSingleton::getInstance()->isKeyJustPressed(sf::Keyboard::Key::M)) {
+      tog ^= 1;
+    }
+    
+  
     window.clear();
     //Rectangle windowRectangle(0.2, 0.5, 0.2, 0.8);
 
@@ -155,7 +150,7 @@ int main() {
     if (0) {
       float L = 0.2, R = 0.8;
       int numPrint = static_cast<int>(BlockType::COUNT) - 1;
-      float dim = (R - L) / numPrint;
+      float m_dim = (R - L) / numPrint;
       sf::VertexArray vertexArray(sf::Quads, 4 * numPrint);
       for (int i = 0; i < 4 * numPrint; i++) {
         vertexArray[i] = sf::Vertex();
@@ -164,10 +159,10 @@ int main() {
       for (int i = 0; i < numPrint; i++) {
         BlockType blockType = static_cast<BlockType>(i);
 
-        sf::Vertex topLeft = sf::Vector2f(0.05, L + dim * i);
-        sf::Vertex topRight = sf::Vector2f(0.15, L + dim * i);
-        sf::Vertex bottomRight = sf::Vector2f(0.15, L + dim * (i + 1));
-        sf::Vertex bottomLeft = sf::Vector2f(0.05, L + dim * (i + 1));
+        sf::Vertex topLeft = sf::Vector2f(0.05, L + m_dim * i);
+        sf::Vertex topRight = sf::Vector2f(0.15, L + m_dim * i);
+        sf::Vertex bottomRight = sf::Vector2f(0.15, L + m_dim * (i + 1));
+        sf::Vertex bottomLeft = sf::Vector2f(0.05, L + m_dim * (i + 1));
 
         Rectangle textureRectangle = TextureAtlasSingleton::getInstance()->getTextureRectangle(blockType);
         topLeft.texCoords = { textureRectangle.getColumnMin(), textureRectangle.getRowMin() };
@@ -198,7 +193,14 @@ int main() {
 
     if (!tog) {
       WorldDrawerSingleton::getInstance(window)->drawWorldOnWindow(windowRectangle, worldRectangle);
+      MobContainerSingleton::getInstance()->update(fixedDT);
     }
+    
+    BlockMatrix* m = nullptr;
+    if ((int)MobContainerSingleton::getInstance()->m_frame_block_matrices.size() == 1) m = MobContainerSingleton::getInstance()->m_frame_block_matrices[0];
+    //cout << " ooo " << (int)MobContainerSingleton::getInstance()->m_frame_block_matrices.size() << "\n";
+    //assert((int)MobContainerSingleton::getInstance()->m_frame_block_matrices.size() == 1);
+    //BlockMatrix* m = MobContainerSingleton::getInstance()->m_frame_block_matrices[0];
 
     if (0) {
       sf::Vector2f worldPos = window.mapPixelToCoords(sf::Mouse::getPosition(window), window.getView());
@@ -212,26 +214,17 @@ int main() {
       window.draw(shape);
     }
 
-    mtr.setRectangle(windowRectangle);
-
-    for (int i = 0; i < 10; i++) {
-      for (int j = 0; j < 10; j++) {
-        if ((i + j) % 2 == 0) {
-          mtr.setBlockType(i, j, BlockType::GREEN_WOOL);
-        }
-        else {
-          mtr.setBlockType(i, j, BlockType::DIRT);
-        }
-      }
+    if (m) {
+      m->setRectangle(windowRectangle);
+      m->update(fixedDT);
     }
 
-    mtr.update(fixedDT);
     if (tog) {
-      window.draw(mtr);
+      assert(m);
+      window.draw(*m);
     }
     //cout << " : " << window.getView().getSize().x << " " << window.getView().getSize().y << "\n";
-    MobContainerSingleton::getInstance()->update(fixedDT);
-
+    
 
     sf::Text text;
 

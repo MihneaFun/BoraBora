@@ -73,7 +73,7 @@
     <Filter Include="Source Files\BlockMatrix">
       <UniqueIdentifier>{c5c6f180-9460-4b78-8e66-823186101c4a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Text">
+    <Filter Include="Source Files\TextSingleton">
       <UniqueIdentifier>{55585eb5-bc66-4c0f-9f14-68f867f77dd4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -126,8 +126,8 @@
     <ClCompile Include="BlockMatrix.cpp">
       <Filter>Source Files\BlockMatrix</Filter>
     </ClCompile>
-    <ClCompile Include="Text.cpp">
-      <Filter>Source Files\Text</Filter>
+    <ClCompile Include="TextSingleton.cpp">
+      <Filter>Source Files\TextSingleton</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -182,8 +182,8 @@
     <ClInclude Include="BlockMatrix.h">
       <Filter>Source Files\BlockMatrix</Filter>
     </ClInclude>
-    <ClInclude Include="Text.h">
-      <Filter>Source Files\Text</Filter>
+    <ClInclude Include="TextSingleton.h">
+      <Filter>Source Files\TextSingleton</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

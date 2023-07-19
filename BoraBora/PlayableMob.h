@@ -5,16 +5,14 @@
 #include <SFML/System/Vector2.hpp>
 #include <vector>
 #include "BlockType.h"
+#include "BlockMatrix.h"
 
 class PlayableMob : public GenericMob {
 public:
   PlayableMob();
-  bool m_was, m_wasB, m_wasX;
   virtual bool requestDelete() override;
   void update(float dt) override;
-
-  std::vector<int> m_counter;
-
+  
   void addForce(const sf::Vector2f& force) override;
   void applyForces() override;
   void justElapseDtX(float dt) override;
@@ -44,8 +42,13 @@ public:
   void killFromWorld() override;
   void collect(BlockType blockType);
 
+  BlockMatrix m_blockMatrix;
 private:
 
+  std::vector<int> m_counter;
+
+  int m_dim;
+  bool m_was, m_wasB, m_wasX;
   float m_column;
   float m_row;
   float m_mass;

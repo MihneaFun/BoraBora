@@ -31,6 +31,10 @@ void MobContainerSingleton::addMob(std::unique_ptr<GenericMob> mob) {
 }
 
 
+void MobContainerSingleton::addFrameBlockMatrix(BlockMatrix* matrix) {
+  m_frame_block_matrices.push_back(matrix);
+}
+
 void MobContainerSingleton::addFramePlayableMob(PlayableMob* mob) {
   m_frame_playable_mobs.push_back(mob);
 }
@@ -51,6 +55,7 @@ void MobContainerSingleton::eraseLastMob() {
 void MobContainerSingleton::update(float dt) {
   m_frame_playable_mobs.clear();
   m_frame_floating_block_mobs.clear();
+  m_frame_block_matrices.clear();
   for (int i = 0; i < (int)m_mobs.size(); i++) {
     m_mobs[i]->update(dt);
   }

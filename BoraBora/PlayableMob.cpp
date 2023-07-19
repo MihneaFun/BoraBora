@@ -9,8 +9,21 @@
 #include "WorldBlocksSingleton.h"
 #include "TextureAtlasSingleton.h"
 #include "TextureType.h"
+#include "BlockType.h"
 
-PlayableMob::PlayableMob() : m_mass(1.0f), m_was(0), m_wasB(0), m_wasX(0), m_counter(static_cast<int>(BlockType::COUNT), 0) {}
+PlayableMob::PlayableMob() : m_mass(1.0f), m_was(0), m_wasB(0), m_wasX(0), m_counter(static_cast<int>(BlockType::COUNT), 0), m_blockMatrix(1, 1) {
+  int cnt = static_cast<int>(BlockType::COUNT) - 1;
+  m_dim = 1;
+  while (m_dim * m_dim < cnt) {
+    m_dim++;
+  }
+  //m_dim = 5;
+  assert(m_dim * m_dim >= cnt);
+  m_blockMatrix = BlockMatrix(m_dim, m_dim);
+  for (int i = 0; i < cnt; i++) {
+    m_blockMatrix.setBlockType(i / m_dim, i % m_dim, static_cast<BlockType>(i));
+  }
+}
 
 void PlayableMob::collect(BlockType blockType) {
   m_counter[static_cast<int>(blockType)]++;
@@ -25,10 +38,19 @@ void PlayableMob::killFromWorld() {
 }
 
 void PlayableMob::update(float dt) {
+  for (int i = 0; i < m_blockMatrix.getRowsSize(); i++) {
+    for (int j = 0; j < m_blockMatrix.getColumnsSize(); j++) {
+      m_blockMatrix.setNumber(j, i, -1);
+    }
+  }
+  for (int i = 0; i < static_cast<int>(BlockType::COUNT) - 1; i++) {
+    m_blockMatrix.setNumber(i / m_dim, i % m_dim, m_counter[i]);
+  }
   MobContainerSingleton::getInstance()->addFramePlayableMob(this);
+  MobContainerSingleton::getInstance()->addFrameBlockMatrix(&m_blockMatrix);
 
   if (KeyboardAndMouseSingleton::getInstance()->isKeyJustPressed(sf::Keyboard::Q)) {
-    std::cout << "salutare\n";
+    //std::cout << "salutare\n";
     std::unique_ptr<FloatingBlockMob> ptr = std::make_unique<FloatingBlockMob>();
     int column = m_column;
     int row = m_row - 3;
