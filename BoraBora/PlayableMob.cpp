@@ -118,6 +118,20 @@ void PlayableMob::update(float dt) {
       MobContainerSingleton::getInstance()->addMob(move(ptr));
     }
   }
+  
+  if (sf::Joystick::getAxisPosition(0, sf::Joystick::Z) > 50) {
+    Rectangle rect = getBoundingBox();
+    sf::Vector2f p = sf::Vector2f((rect.getColumnMin() + rect.getColumnMax()) * 0.5f, (rect.getRowMin() + rect.getRowMax()) * 0.5f) + sf::Vector2f(sf::Joystick::getAxisPosition(0, sf::Joystick::U), -sf::Joystick::getAxisPosition(0, sf::Joystick::V)) / 30.0f;
+    int column = floor(p.x);
+    int row = floor(p.y);
+    if (column >= 0 && column < WorldBlocksSingleton::getInstance()->getWidth() && row >= 0 && row < WorldBlocksSingleton::getInstance()->getHeight()) {
+      BlockType blockType = WorldBlocksSingleton::getInstance()->getBlockType(column, row);
+      if (blockType != BlockType::VOID) {
+        m_counter[static_cast<int>(blockType)]++;
+        WorldBlocksSingleton::getInstance()->setBlockType(column, row, BlockType::VOID);
+      }
+    }
+  }
 
   sf::Vector2f force(0.0f, 0.0f);
 
@@ -245,13 +259,6 @@ void PlayableMob::draw(sf::RenderTarget& renderTarget, sf::RenderStates renderSt
   varray[1].texCoords = sf::Vector2f(textureRectangle.getColumnMax(), textureRectangle.getRowMin());
   varray[2].texCoords = sf::Vector2f(textureRectangle.getColumnMax(), textureRectangle.getRowMax());
   varray[3].texCoords = sf::Vector2f(textureRectangle.getColumnMin(), textureRectangle.getRowMax());
-
-  for (int i = 0; i < 4; i++) {
-    //varray[i].color = sf::Color::Green;
-  }
-
-  //shape.setSize(sf::Vector2f(pos.getColumnMax() - pos.getColumnMin(), pos.getRowMax() - pos.getRowMin()));
-  //shape.setPosition(sf::Vector2f(pos.getColumnMin(), pos.getRowMin())); 
 
   if (press) {
     sf::VertexArray v(sf::Lines, 2);

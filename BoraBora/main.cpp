@@ -98,9 +98,18 @@ int main() {
     }
     timeSinceLastUpdate += clock.restart();
     frames++;
-
-    
-    
+    //cout << (sf::Joystick::getAxisPosition(0, sf::Joystick::Z)) << "\n"; /// RT
+    ///cout << (sf::Joystick::getAxisPosition(0, sf::Joystick::R)) << "\n"; /// LT
+    if (0) {
+      cout << sf::Joystick::getAxisPosition(0, sf::Joystick::PovX) << " ";
+      cout << sf::Joystick::getAxisPosition(0, sf::Joystick::PovY) << " ";
+      cout << sf::Joystick::getAxisPosition(0, sf::Joystick::R) << " ";
+      cout << sf::Joystick::getAxisPosition(0, sf::Joystick::U) << " ";
+      cout << sf::Joystick::getAxisPosition(0, sf::Joystick::V) << " ";
+      cout << sf::Joystick::getAxisPosition(0, sf::Joystick::X) << " ";
+      cout << sf::Joystick::getAxisPosition(0, sf::Joystick::Y) << " ";
+      cout << sf::Joystick::getAxisPosition(0, sf::Joystick::Z) << "\n";
+    }
     bool is5 = sf::Joystick::isButtonPressed(0, 5);
 
     tog ^= (is5 && !was5);
