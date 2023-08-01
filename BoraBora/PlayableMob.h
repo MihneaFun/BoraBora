@@ -48,7 +48,7 @@ private:
   std::vector<int> m_counter;
 
   int m_dim;
-  bool m_was, m_wasB, m_wasX;
+  bool m_was, m_wasB, m_wasX, m_wasY, press;
   float m_column;
   float m_row;
   float m_mass;

@@ -29,6 +29,7 @@ using namespace std;
 int main() {
   sf::RenderWindow window(sf::VideoMode(900, 900), "SFML works!");
 
+ 
   // Texture stuff:
 
   KeyboardAndMouseSingleton::createInstance();
@@ -99,7 +100,6 @@ int main() {
     frames++;
 
     
-    //cout << " ---->: " << (int) MobContainerSingleton::getInstance()->m_frame_block_matrices.size() << "\n";
     
     bool is5 = sf::Joystick::isButtonPressed(0, 5);
 
@@ -126,7 +126,7 @@ int main() {
       windowRectangle = Rectangle(windowRectangle.getColumnMin(), windowRectangle.getColumnMax(), windowRectangle.getRowMin() - fixedDT * speed, windowRectangle.getRowMax() - fixedDT * speed);
     }
 
-
+    
     float speed2 = 0.2;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::T)) {
       float inc = windowRectangle.getColumnMax() - windowRectangle.getColumnMin();
@@ -191,6 +191,7 @@ int main() {
       x = xm - 15;
       y = ym - 15;
     }
+
     Rectangle worldRectangle(x, x + 30, y + 0, y + 30);
 
     if (!tog) {
@@ -225,13 +226,9 @@ int main() {
       assert(m);
       window.draw(*m);
     }
-    //cout << " : " << window.getView().getSize().x << " " << window.getView().getSize().y << "\n";
     
-
     sf::Text text;
 
-    //prepText(text, "70", font, windowRectangle);
-    //window.draw(text);
     window.display();
   }
 
@@ -243,3 +240,12 @@ int main() {
 // implement dda
 // ctrl shift F shady
 // check out
+// la mobi problema e draw : addQuads ca la particle system in loc de draw
+// debug -> performance profiler
+// delete get bounding box after ...
+// epsilon sa il fac si mai mic in genericMob
+// duck game -> steam
+// quake 3 arena (3d) mai vechi
+// class ControlPlayableMob to do InputProcessingComponent -> queue de comenzi
+// abstractizez conceptul de InputDevice
+// GameInputManager System

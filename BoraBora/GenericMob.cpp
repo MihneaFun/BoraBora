@@ -13,13 +13,13 @@ GenericMob::GenericMob() {
 
 using namespace std;
 
-const float Epsilon = 0.000001;
+const float Epsilon = 0.001;
 
 bool GenericMob::Xupdate(float dt_init) {
   if (getVelocity().x > 0) {
     float dt = dt_init;
     Rectangle rect = getBoundingBox();
-    int minRow = floor(rect.getRowMin() + Epsilon);
+    int minRow = floor(rect.getRowMin());
     int maxRow = ceil(rect.getRowMax()) - 1;
     int nextColumn = ceil(rect.getColumnMax());
     if (0 <= nextColumn && nextColumn < WorldBlocksSingleton::getInstance()->getWidth()) {
@@ -31,7 +31,7 @@ bool GenericMob::Xupdate(float dt_init) {
         if (WorldBlocksSingleton::getInstance()->getBlockType(column, row) == BlockType::VOID) {
           continue;
         }
-        dt = min(dt, (nextColumn - rect.getColumnMax()) / getVelocity().x);
+        dt = min(dt, (nextColumn - rect.getColumnMax()) / getVelocity().x - Epsilon);
       }
     }
     dt = max(dt, 0.0f);
@@ -41,9 +41,9 @@ bool GenericMob::Xupdate(float dt_init) {
   if (getVelocity().x < 0) {
     float dt = dt_init;
     Rectangle rect = getBoundingBox();
-    int minRow = floor(rect.getRowMin() + Epsilon);
+    int minRow = floor(rect.getRowMin());
     int maxRow = ceil(rect.getRowMax()) - 1;
-    int previousColumn = floor(rect.getColumnMin() + Epsilon) - 1;
+    int previousColumn = floor(rect.getColumnMin()) - 1;
     if (0 <= previousColumn && previousColumn < WorldBlocksSingleton::getInstance()->getWidth()) {
       minRow = max(minRow, 0);
       maxRow = min(maxRow, WorldBlocksSingleton::getInstance()->getHeight() - 1);
@@ -53,7 +53,7 @@ bool GenericMob::Xupdate(float dt_init) {
         if (WorldBlocksSingleton::getInstance()->getBlockType(column, row) == BlockType::VOID) {
           continue;
         }
-        dt = min(dt, (rect.getColumnMin() - (previousColumn + 1)) / (-getVelocity().x));
+        dt = min(dt, (rect.getColumnMin() - (previousColumn + 1)) / (-getVelocity().x) - Epsilon);
       }
     }
     dt = max(dt, 0.0f);
@@ -68,7 +68,7 @@ bool GenericMob::Yupdate(float dt_init) {
   if (getVelocity().y > 0) {
     float dt = dt_init;
     Rectangle rect = getBoundingBox();
-    int minColumn = floor(rect.getColumnMin() + Epsilon);
+    int minColumn = floor(rect.getColumnMin());
     int maxColumn = ceil(rect.getColumnMax()) - 1;
     int nextRow = ceil(rect.getRowMax());
     if (0 <= nextRow && nextRow < WorldBlocksSingleton::getInstance()->getHeight()) {
@@ -80,7 +80,7 @@ bool GenericMob::Yupdate(float dt_init) {
         if (WorldBlocksSingleton::getInstance()->getBlockType(column, row) == BlockType::VOID) {
           continue;
         }
-        dt = min(dt, (nextRow - rect.getRowMax()) / getVelocity().y);
+        dt = min(dt, (nextRow - rect.getRowMax()) / getVelocity().y - Epsilon);
       }
     }
     dt = max(dt, 0.0f);
@@ -90,9 +90,9 @@ bool GenericMob::Yupdate(float dt_init) {
   if (getVelocity().y < 0) {
     float dt = dt_init;
     Rectangle rect = getBoundingBox();
-    int minColumn = floor(rect.getColumnMin() + Epsilon);
+    int minColumn = floor(rect.getColumnMin());
     int maxColumn = ceil(rect.getColumnMax()) - 1;
-    int previousRow = floor(rect.getRowMin() + Epsilon) - 1;
+    int previousRow = floor(rect.getRowMin()) - 1;
     if (0 <= previousRow && previousRow < WorldBlocksSingleton::getInstance()->getHeight()) {
       minColumn = max(minColumn, 0);
       maxColumn = min(maxColumn, WorldBlocksSingleton::getInstance()->getWidth() - 1);
@@ -102,7 +102,7 @@ bool GenericMob::Yupdate(float dt_init) {
         if (WorldBlocksSingleton::getInstance()->getBlockType(column, row) == BlockType::VOID) {
           continue;
         }
-        dt = min(dt, (rect.getRowMin() - (previousRow + 1)) / (-getVelocity().y));
+        dt = min(dt, (rect.getRowMin() - (previousRow + 1)) / (-getVelocity().y) - Epsilon);
       }
     }
     dt = max(dt, 0.0f);

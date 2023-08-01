@@ -11,7 +11,7 @@
 #include "TextureType.h"
 #include "BlockType.h"
 
-PlayableMob::PlayableMob() : m_mass(1.0f), m_was(0), m_wasB(0), m_wasX(0), m_counter(static_cast<int>(BlockType::COUNT), 0), m_blockMatrix(1, 1) {
+PlayableMob::PlayableMob() : m_mass(1.0f), m_was(false), m_wasB(false), m_wasX(false), m_wasY(false), press(false), m_counter(static_cast<int>(BlockType::COUNT), 0), m_blockMatrix(1, 1) {
   int cnt = static_cast<int>(BlockType::COUNT) - 1;
   m_dim = 1;
   while (m_dim * m_dim < cnt) {
@@ -49,15 +49,17 @@ void PlayableMob::update(float dt) {
   MobContainerSingleton::getInstance()->addFramePlayableMob(this);
   MobContainerSingleton::getInstance()->addFrameBlockMatrix(&m_blockMatrix);
 
+
   if (KeyboardAndMouseSingleton::getInstance()->isKeyJustPressed(sf::Keyboard::Q)) {
-    //std::cout << "salutare\n";
-    std::unique_ptr<FloatingBlockMob> ptr = std::make_unique<FloatingBlockMob>();
-    int column = m_column;
-    int row = m_row - 3;
-    ptr->teleport(column + 0.5, row + 0.5);
-    ptr->setVelocity(sf::Vector2f(0, 0));
-    ptr->setBlockType(BlockType::DIRT);
-    MobContainerSingleton::getInstance()->addMob(std::move(ptr));
+    for (int i = 0; i < 100; i++) {
+      std::unique_ptr<FloatingBlockMob> ptr = std::make_unique<FloatingBlockMob>();
+      int column = m_column;
+      int row = m_row - 3;
+      ptr->teleport(column + 0.5, row + 0.5);
+      ptr->setVelocity(sf::Vector2f(0, 0));
+      ptr->setBlockType(BlockType::DIRT);
+      MobContainerSingleton::getInstance()->addMob(std::move(ptr));
+    }
   }
 
   if (KeyboardAndMouseSingleton::getInstance()->isKeyJustPressed((sf::Keyboard::Space))) {
@@ -67,6 +69,7 @@ void PlayableMob::update(float dt) {
   bool is = (sf::Joystick::isConnected(0) && sf::Joystick::isButtonPressed(0, 0));
   bool isB = (sf::Joystick::isConnected(0) && sf::Joystick::isButtonPressed(0, 1));
   bool isX = (sf::Joystick::isConnected(0) && sf::Joystick::isButtonPressed(0, 2));
+  bool isY = (sf::Joystick::isConnected(0) && sf::Joystick::isButtonPressed(0, 3));
   if (!m_was && is) {
     addForce(sf::Vector2f(0, 10));
   }
@@ -92,9 +95,11 @@ void PlayableMob::update(float dt) {
       std::cout << "NOT\n";
     }
   }
+  press ^= (!m_wasY && isY);
   m_was = is;
   m_wasB = isB;
   m_wasX = isX;
+  m_wasY = isY;
   if (KeyboardAndMouseSingleton::getInstance()->isKeyJustPressed((sf::Keyboard::L))) {
     std::unique_ptr<MissileMob> ptr = std::make_unique<MissileMob>();
     sf::Vector2f loc = getCenter();
@@ -114,7 +119,6 @@ void PlayableMob::update(float dt) {
     }
   }
 
-  // Handle mob movement
   sf::Vector2f force(0.0f, 0.0f);
 
   if (KeyboardAndMouseSingleton::getInstance()->isKeyPressed((sf::Keyboard::A))) {
@@ -125,7 +129,7 @@ void PlayableMob::update(float dt) {
   }
 
   if (sf::Joystick::isConnected(0)) {
-  
+
     float position = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
     if (position > 50) {
       force.x += 1;
@@ -133,15 +137,12 @@ void PlayableMob::update(float dt) {
     if (position < -50) {
       force.x -= 1;
     }
-    //std::cout << "X-axis position: " << position << std::endl;
   }
 
   force *= 10.0f;
 
-  // Scale the force by dt to make the movement time-dependent
   force = force * dt;
 
-  // Apply the calculated force to the mob
   addForce(force);
 
   physicsUpdate(dt);
@@ -232,7 +233,7 @@ void PlayableMob::draw(sf::RenderTarget& renderTarget, sf::RenderStates renderSt
   sf::VertexArray varray(sf::Quads, 4);
 
   Rectangle pos = getBoundingBox();
-  
+
   varray[0].position = sf::Vector2f(pos.getColumnMin(), pos.getRowMin());
   varray[1].position = sf::Vector2f(pos.getColumnMin(), pos.getRowMax());
   varray[2].position = sf::Vector2f(pos.getColumnMax(), pos.getRowMax());
@@ -251,6 +252,37 @@ void PlayableMob::draw(sf::RenderTarget& renderTarget, sf::RenderStates renderSt
 
   //shape.setSize(sf::Vector2f(pos.getColumnMax() - pos.getColumnMin(), pos.getRowMax() - pos.getRowMin()));
   //shape.setPosition(sf::Vector2f(pos.getColumnMin(), pos.getRowMin())); 
+
+  if (press) {
+    sf::VertexArray v(sf::Lines, 2);
+
+    Rectangle rect = getBoundingBox();
+
+    v[0].position = sf::Vector2f((rect.getColumnMin() + rect.getColumnMax()) * 0.5f, (rect.getRowMin() + rect.getRowMax()) * 0.5f);
+    v[1].position = v[0].position + sf::Vector2f(sf::Joystick::getAxisPosition(0, sf::Joystick::U), -sf::Joystick::getAxisPosition(0, sf::Joystick::V)) / 30.0f;
+
+    for (int i = 0; i < 2; i++) {
+      v[i].color = sf::Color(250, 250, 0);
+    }
+
+    int c = floor(v[1].position.x);
+    int r = floor(v[1].position.y);
+
+    {
+      sf::VertexArray va(sf::Quads, 4);
+      va[0].position = sf::Vector2f(c, r);
+      va[1].position = sf::Vector2f(c, r + 1);
+      va[2].position = sf::Vector2f(c + 1, r + 1);
+      va[3].position = sf::Vector2f(c + 1, r);
+      for (int i = 0; i < 4; i++) {
+        va[i].color = sf::Color(0, 250, 250, 150);
+      }
+      renderTarget.draw(va, renderStates);
+    }
+    renderTarget.draw(v, renderStates);
+  }
+
+
 
   renderStates.texture = &TextureAtlasSingleton::getInstance()->getTextureBand();
   renderTarget.draw(varray, renderStates);

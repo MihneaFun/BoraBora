@@ -50,15 +50,17 @@ Rectangle TextureAtlasSingleton::getTextureRectangle(BlockType blockType) const 
 
   TextureType type = TextureType::COUNT;
 
-  if (blockType == BlockType::DIAMOND) type = TextureType::BLOCK_DIAMOND;
-  if (blockType == BlockType::DIRT) type = TextureType::BLOCK_DIRT;
-  if (blockType == BlockType::SAND) type = TextureType::BLOCK_SAND;
-  if (blockType == BlockType::COAL) type = TextureType::BLOCK_COAL;
-  if (blockType == BlockType::GRANITE) type = TextureType::BLOCK_GRANITE;
-  if (blockType == BlockType::BLUE_WOOL) type = TextureType::BLOCK_BLUE_WOOL;
-  if (blockType == BlockType::PINK_WOOL) type = TextureType::BLOCK_PINK_WOOL;
-  if (blockType == BlockType::RED_WOOL) type = TextureType::BLOCK_RED_WOOL;
-  if (blockType == BlockType::GREEN_WOOL) type = TextureType::BLOCK_GREEN_WOOL;
+  // sa bag switch (shady) | jump table in assembler
+
+  if (blockType == BlockType::DIAMOND) type = TextureType::BLOCK_DIAMOND; else
+  if (blockType == BlockType::DIRT) type = TextureType::BLOCK_DIRT; else
+  if (blockType == BlockType::SAND) type = TextureType::BLOCK_SAND; else
+  if (blockType == BlockType::COAL) type = TextureType::BLOCK_COAL; else
+  if (blockType == BlockType::GRANITE) type = TextureType::BLOCK_GRANITE; else
+  if (blockType == BlockType::BLUE_WOOL) type = TextureType::BLOCK_BLUE_WOOL; else
+  if (blockType == BlockType::PINK_WOOL) type = TextureType::BLOCK_PINK_WOOL; else
+  if (blockType == BlockType::RED_WOOL) type = TextureType::BLOCK_RED_WOOL; else
+  if (blockType == BlockType::GREEN_WOOL) type = TextureType::BLOCK_GREEN_WOOL; else
   if (blockType == BlockType::VOID) type = TextureType::BLOCK_VOID;
 
   assert(type != TextureType::COUNT);
@@ -76,7 +78,8 @@ void TextureAtlasSingleton::createTextureBand() {
   
   for (int i = 0; i < static_cast<int>(TextureType::COUNT); ++i) {
     TextureType type = static_cast<TextureType>(i);
-    const sf::Texture& texture = GeneralTextureManagerSingleton::getInstance()->getTexture(type);
+    sf::Texture& texture = GeneralTextureManagerSingleton::getInstance()->getTexture(type);
+    //texture.setSmooth(true);
     totalWidth += texture.getSize().x;
     maxHeight = std::max(maxHeight, static_cast<int>(texture.getSize().y));
   }
